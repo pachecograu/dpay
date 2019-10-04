@@ -1,0 +1,77 @@
+<div class="page" data-name="home">
+    <div class="page-content">
+        <div class="block-title">
+            <div class="row">
+                <div class="col-60">
+                    <div class="list no-hairlines-md" style="margin: 0px;">
+                        <ul>
+                            <li class="item-content item-input item-input-outline">
+                                <div class="item-inner">
+                                    <div class="item-input-wrap input-dropdown-wrap">
+                                        <select placeholder="Estado" ng-model="userStatus"
+                                            ng-change="changeStatus(userStatus)">
+                                            <option value="a">Activo</option>
+                                            <option value="i">Inactivo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-20">
+                    <button class="button button-link" ng-click="openNewUSer()">
+                        <i class="icon material-icons" style="font-size: 36px;">add_circle_outline</i>
+                    </button>
+                </div>
+                <div class="col-20">
+                    <button class="button button-link" ng-click="updateListUsers()">
+                        <i class="icon material-icons" style="font-size: 36px;">loop</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="list">
+                <ul>
+                    <li class="swipeout" ng-repeat="user in users">
+                        <div class="item-content swipeout-content">
+                            <div class="item-inner item-cell">
+                                <div class="item-row">
+                                    <div class="item-cell"><b style="color: darkslategray">{{user.data.nombre}}</b>
+                                    </div>
+                                    <div class="item-cell">CC. {{user.data.identificacion}}</div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell"><b>Dirección:</b> {{user.data.direccion}}</div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>Telefonos</b></div>
+                                        </div>
+                                        <div class="item-row" ng-repeat="tel in user.data.telefono">
+                                            <div class="item-cell"><b>{{$index+1}}):</b> {{tel}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="item-cell">
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>Metodos de pago</b></div>
+                                        </div>
+                                        <div class="item-row" ng-repeat="fpago in user.data.id_f_pago">
+                                            <div class="item-cell">{{fpago.descripcion}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swipeout-actions-left">
+                            <a class="color-red alert-reply" ng-click="DeleteUser(user)" ng-if="userStatus == 'a'">Remover</a>
+                            <a class="color-blue alert-forward" ng-click="openEditUSer(user)">Editar</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

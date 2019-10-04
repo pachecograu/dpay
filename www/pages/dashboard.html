@@ -1,0 +1,63 @@
+<div class="page" data-name="home">
+    <div class="page-content">
+        <div class="block-title">
+            <div class="row">
+                <div class="col-80">
+                    <h3>Datos rapidos</h3>
+                </div>
+                <div class="col-20">
+                    <button class="col button button-link" ng-click="updateDashboard()">
+                        <i class="icon material-icons" style="font-size: 36px;">loop</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="row">
+                <div class="col">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only" style="font-size: 70px;">face</i>
+                        </div>
+                        <div class="col-100">
+                            Clientes
+                        </div>
+                        <div class="col-100">
+                            {{users.length}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_upward</i>
+                        </div>
+                        <div class="col-100">
+                            Prestamos
+                        </div>
+                        <div class="col-100">
+                            #{{prestamos.data.length}} {{prestamos.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_downward</i>
+                        </div>
+                        <div class="col-100">
+                            Cobros
+                        </div>
+                        <div class="col-100">
+                            #{{cobros.data.length}} {{cobros.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

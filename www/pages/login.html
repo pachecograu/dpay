@@ -1,0 +1,36 @@
+<div class="page no-navbar no-toolbar no-swipeback" data-name="login">
+  <div class="page-content login-screen-content">
+    <div class="login-screen-title">D'Pay</div>
+    <form>
+      <div class="list">
+        <ul>
+          <li class="item-content item-input">
+            <div class="item-inner">
+              <div class="item-title item-label">Correo electronico</div>
+              <div class="item-input-wrap">
+                <input type="text" name="username" ng-model="user.email" placeholder="Tu E-mail">
+              </div>
+            </div>
+          </li>
+          <li class="item-content item-input">
+            <div class="item-inner">
+              <div class="item-title item-label">Contraseña</div>
+              <div class="item-input-wrap">
+                <input type="password" name="password" ng-model="user.password" placeholder="Tu Contraseña">
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="list">
+        <ul>
+          <li><a class="item-link list-button" ng-click="onSignIn(user)">Inciar</a></li>
+        </ul>
+        <div class="block-footer">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p><a class="link login-screen-close" href="#">Close Login Screen</a></p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

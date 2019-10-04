@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!--
+  Customize this policy to fit your own app's needs. For more guidance, see:
+      https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+  Some notes:
+      * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+      * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+      * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+          * Enable inline JS: add 'unsafe-inline' to default-src
+  -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#2196f3">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>My App</title>
+
+  <link rel="stylesheet" href="framework7/css/framework7.bundle.min.css">
+  <link rel="stylesheet" href="css/icons.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body ng-app="Dpay" ng-controller="masterCtrl">
+  <div id="app">
+    <!-- Status bar overlay for fullscreen mode-->
+    <div class="statusbar"></div>
+    <!-- Left panel with cover effect-->
+    <!-- <div class="panel panel-left panel-cover theme-dark">
+      <div class="view">
+        <div class="page">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="title">Left Panel</div>
+            </div>
+          </div>
+          <div class="page-content">
+            <div class="block">Left panel content goes here</div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- Right panel with reveal effect-->
+    <div class="panel panel-right panel-reveal theme-dark">
+      <div class="view">
+        <div class="page">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="title">D'Pay</div>
+            </div>
+          </div>
+          <div class="page-content">
+            <div class="block">
+              <div class="list">
+                <ul>
+                  <li>
+                    <div class="item-content">
+                      <div class="item-inner">
+                        <div class="item-title">{{userLoged.email}}</div>
+                      </div>
+                      <div class="item-media"><i class="icon material-icons">account_circle</i></div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="list">
+                <ul>
+                  <li>
+                    <a ui-sref="dashboard" class="item-link item-content">
+                      <div class="item-media"><i class="icon material-icons">home</i></div>
+                      <div class="item-inner">
+                        <div class="item-title">Inicio</div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a ui-sref="users" class="item-link item-content">
+                      <div class="item-media"><i class="icon material-icons">face</i></div>
+                      <div class="item-inner">
+                        <div class="item-title">Usuarios</div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="item-link item-content">
+                      <div class="item-media"><i class="icon material-icons">call_made</i></div>
+                      <div class="item-inner">
+                        <div class="item-title">Prestamos</div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="item-link item-content">
+                      <div class="item-media"><i class="icon material-icons">call_received</i></div>
+                      <div class="item-inner">
+                        <div class="item-title">Cobros</div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="item-link item-content" ng-click="signOut()">
+                      <div class="item-media"><i class="icon material-icons">near_me</i></div>
+                      <div class="item-inner">
+                        <div class="item-title">Cerrar sesion</div>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your main view, should have "view-main" class -->
+    <div class="view view-main safe-areas">
+      <!-- Page, data-name contains page name which can be used in callbacks -->
+      <div class="page" data-name="home">
+        <!-- Top Navbar -->
+        <div class="navbar" ng-show="userLoged.navbar">
+          <div class="navbar-inner">
+            <!-- <div class="left">
+              <a class="link icon-only panel-open" data-panel="left">
+                <i class="icon f7-icons ios-only">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+              </a>
+            </div> -->
+            <div class="title sliding">D'Pay</div>
+            <div class="right">
+              <a class="link icon-only panel-open" data-panel="right">
+                <i class="icon f7-icons ios-only">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Toolbar-->
+        <!-- <div class="toolbar toolbar-bottom">
+          <div class="toolbar-inner">
+            <a class="link">Left Link</a>
+            <a class="link">Right Link</a>
+          </div>
+        </div> -->
+        <!-- Scrollable page content-->
+        <ui-view>
+        </ui-view>
+      </div>
+    </div>
+
+    <!-- Popup -->
+    <div class="popup" id="create-user">
+      <div class="view">
+        <div class="page">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="right">
+                <a class="link popup-close">
+                  <i class="icon material-icons">close</i>
+                </a>
+              </div>
+              <div class="title">Nuevo cliente</div>
+            </div>
+          </div>
+          <div class="page-content">
+            <div class="block-title">Diligencia cada campo</div>
+            <div class="list no-hairlines-md">
+              <ul>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Nombres</div>
+                    <div class="item-input-wrap">
+                      <input type="text" ng-model="newUser.nombre" placeholder="Nombres completos">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Identificación</div>
+                    <div class="item-input-wrap">
+                      <input type="text" ng-model="newUser.identificacion" placeholder="Numero de documento de identidad">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Dirección</div>
+                    <div class="item-input-wrap">
+                      <input type="text" ng-model="newUser.direccion" placeholder="Dirección de residencia">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Telefono / Celular</div>
+                    <div class="item-input-wrap" ng-repeat="tel in newUser.telefono track by $index">
+                      <input type="text" ng-model="newUser.telefono[$index]" placeholder="Numero de Telefono/Celular">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                  <div class="item-media" ng-click="addTelAndTp('tel')" style="align-self: initial;">
+                    <i class="icon material-icons" style="font-size: 36px;">add_circle</i>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Tipo de pagos</div>
+                    <div class="item-input-wrap input-dropdown-wrap"
+                      ng-repeat="tpago in newUser.id_f_pago track by $index">
+                      <select ng-model="newUser.id_f_pago[$index].id" ng-change="changeFp(newUser.id_f_pago[$index])"
+                        placeholder="Selecciona">
+                        <option value="null">Seleccione</option>
+                        <option value="{{fp.id}}" ng-repeat="fp in fpagos track by $index">{{fp.descripcion}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="item-media" ng-click="addTelAndTp('fpago')" style="align-self: initial;">
+                    <i class="icon material-icons" style="font-size: 36px;">add_circle</i>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="block">
+              <div class="row">
+                <div class="col">
+                  <button class="col button button-fill button-round" ng-click="saveUser(newUser)">Guardar
+                    cliente</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="popup" id="edit-user">
+      <div class="view">
+        <div class="page">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="right">
+                <a class="link popup-close">
+                  <i class="icon material-icons">close</i>
+                </a>
+              </div>
+              <div class="title">Editar cliente</div>
+            </div>
+          </div>
+          <div class="page-content">
+            <div class="block-title">Diligencia cada campo</div>
+            <div class="list no-hairlines-md">
+              <ul>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Nombres</div>
+                    <div class="item-input-wrap">
+                      <input type="text" ng-model="editUser.data.nombre" placeholder="Nombres completos">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Identificación</div>
+                    <div class="item-input-wrap">
+                      <input type="text" ng-model="editUser.data.identificacion"
+                        placeholder="Numero de documento de identidad">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Dirección</div>
+                    <div class="item-input-wrap">
+                      <input type="text" ng-model="editUser.data.direccion" placeholder="Dirección de residencia">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Telefono / Celular</div>
+                    <div class="item-input-wrap" ng-repeat="tel in editUser.data.telefono track by $index">
+                      <input type="text" ng-model="editUser.data.telefono[$index]" placeholder="Numero de Telefono/Celular">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                  <div class="item-media" ng-click="addTelAndTp('tel')" style="align-self: initial;">
+                    <i class="icon material-icons" style="font-size: 36px;">add_circle</i>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Tipo de pagos</div>
+                    <div class="item-input-wrap input-dropdown-wrap"
+                      ng-repeat="tpago in editUser.data.id_f_pago track by $index">
+                      <select ng-model="editUser.data.id_f_pago[$index].id" ng-change="changeFp(editUser.data.id_f_pago[$index])"
+                        placeholder="Selecciona">
+                        <option value="null">Seleccione</option>
+                        <option value="{{fp.id}}" ng-repeat="fp in fpagos track by $index">{{fp.descripcion}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="item-media" ng-click="addTelAndTp('fpago')" style="align-self: initial;">
+                    <i class="icon material-icons" style="font-size: 36px;">add_circle</i>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="block">
+              <div class="row">
+                <div class="col">
+                  <button class="col button button-fill button-round" ng-click="UpdateUser(editUser)">Actualizar
+                    cliente</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- Cordova -->
+  <!--
+  <script src="cordova.js"></script>
+  -->
+
+  <!-- Framework7 library -->
+  <script src="framework7/js/framework7.bundle.min.js"></script>
+  <!-- angular js -->
+  <script src="bower_components/angular/angular.min.js" charset="utf-8"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js" charset="utf-8"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-firestore.js"></script>
+
+  <!-- Your custom app scripts -->
+  <script src="js/config/app.js"></script>
+  <!-- App routes -->
+  <script src="js/config/routes.js"></script>
+  <!-- controllers -->
+  <script src="js/controllers/masterCtrl.js" charset="utf-8"></script>
+  <script src="js/controllers/loginCtrl.js" charset="utf-8"></script>
+  <script src="js/controllers/dashboardCtrl.js" charset="utf-8"></script>
+  <script src="js/controllers/usersCtrl.js" charset="utf-8"></script>
+</body>
+
+</html>
