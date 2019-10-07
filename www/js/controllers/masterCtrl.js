@@ -1,6 +1,6 @@
 MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
   console.log('en el master');
-
+  moment.locale('es');
   $scope.safeApply = function (fn) {
     var phase = this.$root.$$phase;
     if (phase == '$apply' || phase == '$digest') {
@@ -151,7 +151,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
         newUser.close();
         notify({
           text: '¡Creado exitosamente!'
-        })
+        });
         MyApp.fw7.dialog.close();
       })
       .catch(function (error) {
@@ -210,6 +210,47 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
       },
       function (params) {
 
+      });
+  };
+
+  $scope.viewUser = function (user) {
+    console.log(user);
+    MyApp.fw7.preloader.show();
+    $scope.db.collection("usuarios").doc(user)
+      .get().then(function (doc) {
+        console.log(doc)
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          $scope.safeApply(function () {
+            $scope.userItemCobro = doc.data();
+          });
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+        MyApp.fw7.preloader.hide();
+      });
+  };
+
+  $scope.viewPrestamo = function (prestamo) {
+    console.log(prestamo);
+    MyApp.fw7.preloader.show();
+    $scope.db.collection("prestamos").doc(prestamo)
+      .get().then(function (doc) {
+        console.log(doc);
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          var prestamo = doc.data();
+          prestamo.date = moment(prestamo.fecha.seconds * 1000).format('MMMM D YYYY, h:mm:ss a');
+          prestamo.dateFrom = moment(prestamo.fecha.seconds * 1000).startOf('day').fromNow();
+          $scope.safeApply(function () {
+            $scope.prestamoItemCobro = prestamo;
+          });
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+        MyApp.fw7.preloader.hide();
       });
   };
 

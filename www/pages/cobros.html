@@ -1,5 +1,27 @@
+<!-- Top Navbar -->
+<div class="navbar" ng-show="userLoged.navbar">
+    <div class="navbar-inner">
+        <div class="left padding-horizontal">
+            D'Pay
+        </div>
+        <div class="title sliding text-align-center" style="width: 100%;">Cobros</div>
+        <div class="right">
+            <a class="link icon-only panel-open" data-panel="right">
+                <i class="icon f7-icons ios-only">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Toolbar-->
+<!-- <div class="toolbar toolbar-bottom">
+          <div class="toolbar-inner">
+            <a class="link">Left Link</a>
+            <a class="link">Right Link</a>
+          </div>
+        </div> -->
 <div class="page" data-name="home">
-    <div class="page-content">
+    <div class="page-content hide-navbar-on-scroll">
         <div class="block-title">
             <div class="row">
                 <div class="col-60">
@@ -29,38 +51,44 @@
                         <i class="icon material-icons" style="font-size: 36px;">loop</i>
                     </button>
                 </div>
+                <div class="col-100 text-align-right">
+                    Total: <b>{{cobros.total | currency:"$":0}}</b>
+                </div>
             </div>
         </div>
         <div class="block">
             <div class="list">
                 <ul>
-                    <li class="swipeout" ng-repeat="user in users">
+                    <li class="swipeout" ng-repeat="cobro in cobros.data">
                         <div class="item-content swipeout-content">
                             <div class="item-inner item-cell">
                                 <div class="item-row">
-                                    <div class="item-cell"><b style="color: darkslategray">{{user.data.nombre}}</b>
+                                    <div class="item-cell">
+                                        <h3>
+                                            <b>{{cobro.abono | currency:"$":0}}</b>
+                                        </h3>
                                     </div>
-                                    <div class="item-cell">CC. {{user.data.identificacion}}</div>
-                                </div>
-                                <div class="item-row">
-                                    <div class="item-cell"><b>Dirección:</b> {{user.data.direccion}}</div>
+                                    <div class="item-cell text-align-right">
+                                        {{cobro.dateFormAbono}}
+                                    </div>
                                 </div>
                                 <div class="item-row">
                                     <div class="item-cell">
-                                        <div class="item-row">
-                                            <div class="item-cell"><b>Telefonos</b></div>
-                                        </div>
-                                        <div class="item-row" ng-repeat="tel in user.data.telefono">
-                                            <div class="item-cell"><b>{{$index+1}}):</b> {{tel}}</div>
-                                        </div>
+                                        <b class="margin-right">Fecha:</b>
+                                        {{cobro.dateAbono}}
                                     </div>
+                                </div>
+                                <div class="item-row">
                                     <div class="item-cell">
-                                        <div class="item-row">
-                                            <div class="item-cell"><b>Metodos de pago</b></div>
-                                        </div>
-                                        <div class="item-row" ng-repeat="fpago in user.data.id_f_pago">
-                                            <div class="item-cell">{{fpago.descripcion}}</div>
-                                        </div>
+                                        <a class="link popover-open" data-popover=".popover-viewUser"
+                                            ng-click="viewUser(cobro.id_usuario)"
+                                            style="text-decoration: underline">Ver
+                                            cliente</a>
+                                    </div>
+                                    <div class="item-cell text-align-right">
+                                        <a class="link popover-open" data-popover=".popover-viewPrestamo"
+                                            ng-click="viewPrestamo(cobro.id_prestamo)"
+                                            style="text-decoration: underline">Detalles de prestamo</a>
                                     </div>
                                 </div>
                             </div>

@@ -124,34 +124,67 @@
     <div class="view view-main safe-areas">
       <!-- Page, data-name contains page name which can be used in callbacks -->
       <div class="page" data-name="home">
-        <!-- Top Navbar -->
-        <div class="navbar" ng-show="userLoged.navbar">
-          <div class="navbar-inner">
-            <!-- <div class="left">
-              <a class="link icon-only panel-open" data-panel="left">
-                <i class="icon f7-icons ios-only">menu</i>
-                <i class="icon material-icons md-only">menu</i>
-              </a>
-            </div> -->
-            <div class="title sliding">D'Pay</div>
-            <div class="right">
-              <a class="link icon-only panel-open" data-panel="right">
-                <i class="icon f7-icons ios-only">menu</i>
-                <i class="icon material-icons md-only">menu</i>
-              </a>
-            </div>
-          </div>
-        </div>
-        <!-- Toolbar-->
-        <!-- <div class="toolbar toolbar-bottom">
-          <div class="toolbar-inner">
-            <a class="link">Left Link</a>
-            <a class="link">Right Link</a>
-          </div>
-        </div> -->
         <!-- Scrollable page content-->
         <ui-view>
         </ui-view>
+      </div>
+    </div>
+
+    <div class="popover popover-viewUser" style="width: 80%;">
+      <div class="popover-inner">
+        <div class="block">
+          <h3>Cliente {{userItemCobro.nombre}}</h3>
+          <div class="row">
+            <div class="col-100">CC. {{userItemCobro.identificacion}}</div>
+          </div>
+          <div class="row">
+            <div class="col-100"><b>Dirección:</b> {{userItemCobro.direccion}}</div>
+          </div>
+          <div class="row">
+            <div class="col-50">
+              <div class="row">
+                <div class="cell"><b>Telefonos</b></div>
+              </div>
+              <div class="row" ng-repeat="tel in userItemCobro.telefono">
+                <div class="cell"><b>{{$index+1}}):</b> {{tel}}</div>
+              </div>
+            </div>
+            <div class="col-50">
+              <div class="row">
+                <div class="cell"><b>Metodos de pago</b></div>
+              </div>
+              <div class="row" ng-repeat="fpago in userItemCobro.id_f_pago">
+                <div class="cell">{{fpago.descripcion}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="popover popover-viewPrestamo" style="width: 80%;">
+      <div class="popover-inner">
+        <div class="block">
+          <div class="row">
+            <div class="col">
+              <h3>Prestamo</h3>
+            </div>
+            <div class="col text-align-right padding-vertical">
+              {{prestamoItemCobro.dateFrom}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-100"><b>Fecha:</b> {{prestamoItemCobro.date}}</div>
+          </div>
+          <div class="row">
+            <div class="col-50">
+              <b>Valor: {{prestamoItemCobro.valor | currency:"$":0}}</b>
+            </div>
+            <div class="col-50 text-align-right">
+              <b>Tiempo:</b> {{prestamoItemCobro.semanas}} Semanas
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -186,7 +219,8 @@
                   <div class="item-inner">
                     <div class="item-title item-label">Identificación</div>
                     <div class="item-input-wrap">
-                      <input type="text" ng-model="newUser.identificacion" placeholder="Numero de documento de identidad">
+                      <input type="text" ng-model="newUser.identificacion"
+                        placeholder="Numero de documento de identidad">
                       <span class="input-clear-button"></span>
                     </div>
                   </div>
@@ -292,7 +326,8 @@
                   <div class="item-inner">
                     <div class="item-title item-label">Telefono / Celular</div>
                     <div class="item-input-wrap" ng-repeat="tel in editUser.data.telefono track by $index">
-                      <input type="text" ng-model="editUser.data.telefono[$index]" placeholder="Numero de Telefono/Celular">
+                      <input type="text" ng-model="editUser.data.telefono[$index]"
+                        placeholder="Numero de Telefono/Celular">
                       <span class="input-clear-button"></span>
                     </div>
                   </div>
@@ -305,8 +340,8 @@
                     <div class="item-title item-label">Tipo de pagos</div>
                     <div class="item-input-wrap input-dropdown-wrap"
                       ng-repeat="tpago in editUser.data.id_f_pago track by $index">
-                      <select ng-model="editUser.data.id_f_pago[$index].id" ng-change="changeFp(editUser.data.id_f_pago[$index])"
-                        placeholder="Selecciona">
+                      <select ng-model="editUser.data.id_f_pago[$index].id"
+                        ng-change="changeFp(editUser.data.id_f_pago[$index])" placeholder="Selecciona">
                         <option value="null">Seleccione</option>
                         <option value="{{fp.id}}" ng-repeat="fp in fpagos track by $index">{{fp.descripcion}}</option>
                       </select>
@@ -331,6 +366,94 @@
       </div>
     </div>
 
+    <div class="popup" id="create-cobro">
+      <div class="view">
+        <div class="page">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="right">
+                <a class="link popup-close">
+                  <i class="icon material-icons">close</i>
+                </a>
+              </div>
+              <div class="title">Nuevo cliente</div>
+            </div>
+          </div>
+          <div class="page-content">
+            <div class="block-title">Diligencia cada campo</div>
+            <div class="list no-hairlines-md">
+              <ul>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Nombres</div>
+                    <div class="item-input-wrap">
+                      <input type="text" ng-model="newUser.nombre" placeholder="Nombres completos">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Identificación</div>
+                    <div class="item-input-wrap">
+                      <input type="text" ng-model="newUser.identificacion"
+                        placeholder="Numero de documento de identidad">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Dirección</div>
+                    <div class="item-input-wrap">
+                      <input type="text" ng-model="newUser.direccion" placeholder="Dirección de residencia">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Telefono / Celular</div>
+                    <div class="item-input-wrap" ng-repeat="tel in newUser.telefono track by $index">
+                      <input type="text" ng-model="newUser.telefono[$index]" placeholder="Numero de Telefono/Celular">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                  <div class="item-media" ng-click="addTelAndTp('tel')" style="align-self: initial;">
+                    <i class="icon material-icons" style="font-size: 36px;">add_circle</i>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Tipo de pagos</div>
+                    <div class="item-input-wrap input-dropdown-wrap"
+                      ng-repeat="tpago in newUser.id_f_pago track by $index">
+                      <select ng-model="newUser.id_f_pago[$index].id" ng-change="changeFp(newUser.id_f_pago[$index])"
+                        placeholder="Selecciona">
+                        <option value="null">Seleccione</option>
+                        <option value="{{fp.id}}" ng-repeat="fp in fpagos track by $index">{{fp.descripcion}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="item-media" ng-click="addTelAndTp('fpago')" style="align-self: initial;">
+                    <i class="icon material-icons" style="font-size: 36px;">add_circle</i>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="block">
+              <div class="row">
+                <div class="col">
+                  <button class="col button button-fill button-round" ng-click="saveUser(newUser)">Guardar
+                    cliente</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
   <!-- Cordova -->
   <!--
@@ -345,6 +468,8 @@
   <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-firestore.js"></script>
+  <script src="js/plugins/moment.min.js"></script>
+  <script src="js/plugins/es.js"></script>
 
   <!-- Your custom app scripts -->
   <script src="js/config/app.js"></script>
