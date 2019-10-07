@@ -42,4 +42,9 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider, $httpProvider)
       templateUrl: "pages/users.html",
       controller: "usersCtrl"
     })
+    .state('cobros', {
+      url: "/cobros",
+      templateUrl: "pages/cobros.html",
+      controller: "cobrosCtrl"
+    })
 });

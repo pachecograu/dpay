@@ -1,0 +1,32 @@
+MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+  console.log('en el cobrosCtrl');
+  MyApp.fw7.panel.close();
+
+  $scope.changeStatus = function (status) {
+    $scope.safeApply(function () {
+      $rootScope.userStatus = status;
+    });
+    $scope.getUsers(status);
+  };
+
+  $scope.changeStatus($rootScope.userStatus);
+
+  $scope.updateListUsers = function () {
+    $scope.getUsers($rootScope.userStatus);
+  };
+
+  $scope.openNewUSer = function () {
+    newUser.open();
+  };
+
+  $scope.openEditUSer = function (user) {
+    for (var key in user) {
+      $scope.safeApply(function () {
+        $scope.editUser[key] = user[key];
+      });
+    }
+    console.log($scope.editUser);
+    editUser.open();
+  };
+
+}]);

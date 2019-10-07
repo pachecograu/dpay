@@ -1,0 +1,12 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "Dpay",
+  "short_name": "Dpay",
+  "version": "com.wlozano.dpay",
+  "description": "A blank PhoneGap app.",
+  "author": "PhoneGap Team",
+  "icons": [],
+  "start_url": "index.html",
+  "theme_color": "#2196f3"
+}
