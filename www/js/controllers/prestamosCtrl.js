@@ -1,16 +1,16 @@
-MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
-  console.log('en el cobrosCtrl');
+MyApp.angular.controller('prestamosCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+  console.log('en el prestamosCtrl');
   MyApp.fw7.panel.close();
 
-  $scope.activoCobros = 'a';
+  $scope.activoPrestamos = 'a';
 
-  $scope.cobros = {
+  $scope.prestamos = {
     total: 0,
     data: []
   };
-  $scope.getCobros = function (status) {
+  $scope.getPrestamos = function (status) {
     $scope.safeApply(function () {
-      $scope.cobros = {
+      $scope.prestamos = {
         total: 0,
         data: []
       };
@@ -22,10 +22,10 @@ MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope
       activo = false;
     }
     MyApp.fw7.dialog.preloader('Cargando...');
-    $scope.db.collection("cobros").where("activo", "==", activo)
+    $scope.db.collection("prestamos").where("activo", "==", activo)
       .get()
       .then(function (querySnapshot) {
-        $scope.cobros = {
+        $scope.prestamos = {
           total: 0,
           data: []
         };
@@ -38,8 +38,8 @@ MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope
           cobro.dateAbono = moment(cobro.fecha.seconds * 1000).format('MMMM D YYYY, h:mm:ss a');
           cobro.dateFormAbono = moment(cobro.fecha.seconds * 1000).startOf('day').fromNow();
           $scope.safeApply(function () {
-            $scope.cobros.total += doc.data().abono;
-            $scope.cobros.data.push(cobro);
+            $scope.prestamos.total += doc.data().valor;
+            $scope.prestamos.data.push(cobro);
           });
         });
       });
@@ -47,15 +47,15 @@ MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope
 
   $scope.changeStatus = function (status) {
     $scope.safeApply(function () {
-      $scope.activoCobros = status;
+      $scope.activoPrestamos = status;
     });
-    $scope.getCobros(status);
+    $scope.getPrestamos(status);
   };
 
-  $scope.changeStatus($scope.activoCobros);
+  $scope.changeStatus($scope.activoPrestamos);
 
-  $scope.updateListCobros = function () {
-    $scope.getCobros($scope.activoCobros);
+  $scope.updateListPrestamos = function () {
+    $scope.getPrestamos($scope.activoPrestamos);
   };
 
 }]);

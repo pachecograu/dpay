@@ -47,4 +47,14 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider, $httpProvider)
       templateUrl: "pages/cobros.html",
       controller: "cobrosCtrl"
     })
+    .state('prestamos', {
+      url: "/prestamos",
+      templateUrl: "pages/prestamos.html",
+      controller: "prestamosCtrl"
+    })
+    .state('prtm-on-profile', {
+      url: "/prtm-on-profile/:idUser",
+      templateUrl: "pages/prtm-on-profile.html",
+      controller: "ptrmOnPrflCtrl"
+    })
 });

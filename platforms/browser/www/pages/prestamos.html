@@ -4,7 +4,7 @@
         <div class="left padding-horizontal">
             
         </div>
-        <div class="title sliding text-align-center" style="width: 100%;">Usuarios</div>
+        <div class="title sliding text-align-center" style="width: 100%;">Prestamos</div>
         <div class="right">
             <a class="link icon-only panel-open" data-panel="right">
                 <i class="icon f7-icons ios-only">menu</i>
@@ -13,10 +13,16 @@
         </div>
     </div>
 </div>
-
+<!-- Toolbar-->
+<!-- <div class="toolbar toolbar-bottom">
+          <div class="toolbar-inner">
+            <a class="link">Left Link</a>
+            <a class="link">Right Link</a>
+          </div>
+        </div> -->
 <div class="page" data-name="home">
     <div class="page-content hide-navbar-on-scroll">
-        <div class="block-title">
+        <div class="block">
             <div class="row">
                 <div class="col-60">
                     <div class="list no-hairlines-md" style="margin: 0px;">
@@ -24,8 +30,8 @@
                             <li class="item-content item-input item-input-outline">
                                 <div class="item-inner">
                                     <div class="item-input-wrap input-dropdown-wrap">
-                                        <select placeholder="Estado" ng-model="userStatus"
-                                            ng-change="changeStatus(userStatus)">
+                                        <select placeholder="Estado" ng-model="activoPrestamos"
+                                            ng-change="changeStatus(activoPrestamos)">
                                             <option value="a">Activo</option>
                                             <option value="i">Inactivo</option>
                                         </select>
@@ -36,57 +42,53 @@
                     </div>
                 </div>
                 <div class="col-20">
-                    <button class="button button-link" ng-click="openNewUSer()">
-                        <i class="icon material-icons" style="font-size: 36px;">add_circle_outline</i>
-                    </button>
-                </div>
-                <div class="col-20">
-                    <button class="button button-link" ng-click="updateListUsers()">
+                    <button class="button button-link" ng-click="updateListPrestamos()">
                         <i class="icon material-icons" style="font-size: 36px;">loop</i>
                     </button>
                 </div>
                 <div class="col-50">
-                    {{users.length}} Registros
+                    {{prestamos.data.length}} Registros
+                </div>
+                <div class="col-50 text-align-right">
+                    Total: <b>{{prestamos.total | currency:"$":0}}</b>
                 </div>
             </div>
         </div>
         <div class="block">
             <div class="list">
                 <ul>
-                    <li class="swipeout" ng-repeat="user in users">
-                        <a ui-sref="prtm-on-profile({idUser: user.id})" class="item-link item-content swipeout-content">
+                    <li ng-repeat="prestammo in prestamos.data track by $index">
+                        <div class="item-content">
                             <div class="item-inner item-cell">
                                 <div class="item-row">
-                                    <div class="item-cell"><b style="color: darkslategray">{{user.data.nombre}}</b>
+                                    <div class="item-cell">
+                                        <h3 class="no-margin">
+                                            <b>{{prestammo.valor | currency:"$":0}}</b>
+                                        </h3>
                                     </div>
-                                    <div class="item-cell">CC. {{user.data.identificacion}}</div>
-                                </div>
-                                <div class="item-row">
-                                    <div class="item-cell"><b>Dirección:</b> {{user.data.direccion}}</div>
+                                    <div class="item-cell text-align-right">
+                                        {{prestammo.dateFormAbono}}
+                                    </div>
                                 </div>
                                 <div class="item-row">
                                     <div class="item-cell">
-                                        <div class="item-row">
-                                            <div class="item-cell"><b>Telefonos</b></div>
-                                        </div>
-                                        <div class="item-row" ng-repeat="tel in user.data.telefono">
-                                            <div class="item-cell"><b>{{$index+1}}):</b> {{tel}}</div>
-                                        </div>
+                                        <b class="margin-right">{{prestammo.semanas}} Semanas</b>
                                     </div>
+                                </div>
+                                <div class="item-row">
                                     <div class="item-cell">
-                                        <div class="item-row">
-                                            <div class="item-cell"><b>Metodos de pago</b></div>
-                                        </div>
-                                        <div class="item-row" ng-repeat="fpago in user.data.id_f_pago">
-                                            <div class="item-cell">{{fpago.descripcion}}</div>
-                                        </div>
+                                        <b class="margin-right">Fecha:</b>
+                                        {{prestammo.dateAbono}}
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <a class="link popover-open" data-popover=".popover-viewUser"
+                                            ng-click="viewUser(prestammo.id_usuario)" style="text-decoration: underline">Ver
+                                            cliente</a>
                                     </div>
                                 </div>
                             </div>
-                        </a>
-                        <div class="swipeout-actions-left">
-                            <a class="color-red alert-reply" ng-click="DeleteUser(user)" ng-if="userStatus == 'a'">Remover</a>
-                            <a class="color-blue alert-forward" ng-click="openEditUSer(user)">Editar</a>
                         </div>
                     </li>
                 </ul>

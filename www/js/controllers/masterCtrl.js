@@ -213,7 +213,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
       });
   };
 
-  $scope.viewUser = function (user) {
+  $scope.viewUser = function (user, fn) {
     console.log(user);
     MyApp.fw7.preloader.show();
     $scope.db.collection("usuarios").doc(user)
@@ -221,9 +221,13 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
         console.log(doc)
         if (doc.exists) {
           console.log("Document data:", doc.data());
-          $scope.safeApply(function () {
-            $scope.userItemCobro = doc.data();
-          });
+          if(fn){
+            fn(doc.data());
+          }else{
+            $scope.safeApply(function () {
+              $scope.userItemCobro = doc.data();
+            });
+          }
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");

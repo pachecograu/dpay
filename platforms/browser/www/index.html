@@ -89,7 +89,7 @@
                     </a>
                   </li>
                   <li>
-                    <a class="item-link item-content">
+                    <a ui-sref="prestamos" class="item-link item-content">
                       <div class="item-media"><i class="icon material-icons">call_made</i></div>
                       <div class="item-inner">
                         <div class="item-title">Prestamos</div>
@@ -124,6 +124,16 @@
     <div class="view view-main safe-areas">
       <!-- Page, data-name contains page name which can be used in callbacks -->
       <div class="page" data-name="home">
+        <!-- Toolbar-->
+        <div class="toolbar toolbar-bottom">
+          <div class="toolbar-inner">
+            <div class="row" style="width: 100%;">
+              <div class="col text-align-center">
+                D'Pay
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- Scrollable page content-->
         <ui-view>
         </ui-view>
@@ -481,6 +491,8 @@
   <script src="js/controllers/dashboardCtrl.js" charset="utf-8"></script>
   <script src="js/controllers/usersCtrl.js" charset="utf-8"></script>
   <script src="js/controllers/cobrosCtrl.js" charset="utf-8"></script>
+  <script src="js/controllers/prestamosCtrl.js" charset="utf-8"></script>
+  <script src="js/controllers/ptrmOnPrflCtrl.js" charset="utf-8"></script>
 </body>
 
 </html>

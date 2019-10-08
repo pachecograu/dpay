@@ -2,7 +2,7 @@
 <div class="navbar" ng-show="userLoged.navbar">
     <div class="navbar-inner">
         <div class="left padding-horizontal">
-            D'Pay
+            
         </div>
         <div class="title sliding text-align-center" style="width: 100%;">Usuarios</div>
         <div class="right">
@@ -13,13 +13,7 @@
         </div>
     </div>
 </div>
-<!-- Toolbar-->
-<!-- <div class="toolbar toolbar-bottom">
-          <div class="toolbar-inner">
-            <a class="link">Left Link</a>
-            <a class="link">Right Link</a>
-          </div>
-        </div> -->
+
 <div class="page" data-name="home">
     <div class="page-content hide-navbar-on-scroll">
         <div class="block-title">
@@ -51,13 +45,16 @@
                         <i class="icon material-icons" style="font-size: 36px;">loop</i>
                     </button>
                 </div>
+                <div class="col-50">
+                    {{users.length}} Registros
+                </div>
             </div>
         </div>
         <div class="block">
             <div class="list">
                 <ul>
                     <li class="swipeout" ng-repeat="user in users">
-                        <div class="item-content swipeout-content">
+                        <a ui-sref="prtm-on-profile({idUser: user.id})" class="item-link item-content swipeout-content">
                             <div class="item-inner item-cell">
                                 <div class="item-row">
                                     <div class="item-cell"><b style="color: darkslategray">{{user.data.nombre}}</b>
@@ -86,7 +83,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                         <div class="swipeout-actions-left">
                             <a class="color-red alert-reply" ng-click="DeleteUser(user)" ng-if="userStatus == 'a'">Remover</a>
                             <a class="color-blue alert-forward" ng-click="openEditUSer(user)">Editar</a>

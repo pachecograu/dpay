@@ -2,9 +2,18 @@ MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope
   console.log('en el cobrosCtrl');
   MyApp.fw7.panel.close();
 
-  $scope.getCobros = function (params) {
+  $scope.activoCobros = 'a';
+
+  $scope.cobros = {
+    total: 0,
+    data: []
+  };
+  $scope.getCobros = function (status) {
     $scope.safeApply(function () {
-      $scope.users = [];
+      $scope.cobros = {
+        total: 0,
+        data: []
+      };
     });
     var activo = true;
     if (status == 'a') {
@@ -30,7 +39,6 @@ MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope
           cobro.dateFormAbono = moment(cobro.fecha.seconds * 1000).startOf('day').fromNow();
           $scope.safeApply(function () {
             $scope.cobros.total += doc.data().abono;
-
             $scope.cobros.data.push(cobro);
           });
         });
@@ -39,29 +47,15 @@ MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope
 
   $scope.changeStatus = function (status) {
     $scope.safeApply(function () {
-      $rootScope.userStatus = status;
+      $scope.activoCobros = status;
     });
     $scope.getCobros(status);
   };
 
-  $scope.changeStatus($rootScope.userStatus);
+  $scope.changeStatus($scope.activoCobros);
 
-  $scope.updateListUsers = function () {
-    $scope.getUsers($rootScope.userStatus);
-  };
-
-  $scope.openNewUSer = function () {
-    newUser.open();
-  };
-
-  $scope.openEditUSer = function (user) {
-    for (var key in user) {
-      $scope.safeApply(function () {
-        $scope.editUser[key] = user[key];
-      });
-    }
-    console.log($scope.editUser);
-    editUser.open();
+  $scope.updateListCobros = function () {
+    $scope.getCobros($scope.activoCobros);
   };
 
 }]);

@@ -1,0 +1,94 @@
+<!-- Top Navbar -->
+<div class="navbar" ng-show="userLoged.navbar">
+    <div class="navbar-inner">
+        <div class="left">
+            <a class="link icon-only" ui-sref="users">
+                <i class="icon material-icons md-only">arrow_back</i>
+            </a>
+        </div>
+        <div class="title sliding text-align-center" style="width: 100%;">Detalles</div>
+        <div class="right">
+            <a class="link icon-only panel-open" data-panel="right">
+                <i class="icon f7-icons ios-only">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="page" data-name="home">
+    <div class="page-content hide-navbar-on-scroll">
+        <div class="block-title ">
+            <div class="row">
+                <div class="col-50"><b style="color: darkslategray">{{userProfile.nombre}}</b>
+                </div>
+                <div class="col-50">CC. {{userProfile.identificacion}}</div>
+                <div class="col-100"><b>Dirección:</b> {{userProfile.direccion}}</div>
+                <div class="col-50">
+                    <div class="row">
+                        <div class="col-100"><b>Telefonos</b></div>
+                    </div>
+                    <div class="row" ng-repeat="tel in userProfile.telefono">
+                        <div class="col-100"><b>{{$index+1}}):</b> {{tel}}</div>
+                    </div>
+                </div>
+                <div class="col-50">
+                    <div class="row">
+                        <div class="col-100"><b>Metodos de pago</b></div>
+                    </div>
+                    <div class="row" ng-repeat="fpago in userProfile.id_f_pago">
+                        <div class="col-100">{{fpago.descripcion}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-top">
+                <div class="col-60">
+                    {{users.length}} Registros
+                </div>
+                <div class="col-20">
+                    <button class="button button-link" ng-click="openNewUSer()">
+                        <i class="icon material-icons" style="font-size: 36px;">add_circle_outline</i>
+                    </button>
+                </div>
+                <div class="col-20">
+                    <button class="button button-link" ng-click="updateListUsers()">
+                        <i class="icon material-icons" style="font-size: 36px;">loop</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="list no-margin-top">
+                <ul>
+                    <li ng-repeat="prestammo in prestamos.data track by $index">
+                        <a class="item-link item-content">
+                            <div class="item-inner item-cell">
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <h3 class="no-margin">
+                                            <b>{{prestammo.valor | currency:"$":0}}</b>
+                                        </h3>
+                                    </div>
+                                    <div class="item-cell text-align-right">
+                                        {{prestammo.dateFormAbono}}
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <b class="margin-right">{{prestammo.semanas}} Semanas</b>
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <b class="margin-right">Fecha:</b>
+                                        {{prestammo.dateAbono}}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
