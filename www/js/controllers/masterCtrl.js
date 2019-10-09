@@ -39,6 +39,10 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
     semanas: 0
   };
 
+  $scope.newCobros = {
+    abono: 0
+  };
+
   $scope.signOut = function () {
     MyApp.fw7.panel.close();
     firebase.auth().signOut();
@@ -240,6 +244,29 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
       });
   };
 
+  $scope.saveCobro = function (cobro) {
+    console.log(cobro);
+    cobro.id_usuario = $rootScope.params.idUser;
+    cobro.id_prestamo = $rootScope.params.idPrtm;
+    cobro.fecha = new Date();
+    cobro.activo = true;
+    MyApp.fw7.dialog.preloader('Guardando...');
+    $scope.db.collection("cobros").add(cobro)
+      .then(function (docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        // $scope.getUsers($rootScope.userStatus);
+        newCobro.close();
+        notify({
+          text: '¡Creado exitosamente!'
+        });
+        MyApp.fw7.dialog.close();
+      })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+        MyApp.fw7.dialog.close();
+      });
+  };
+
   $scope.viewUser = function (user, fn) {
     console.log(user);
     MyApp.fw7.preloader.show();
@@ -272,8 +299,8 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
         if (doc.exists) {
           console.log("Document data:", doc.data());
           var prestamo = doc.data();
-          prestamo.date = moment(prestamo.fecha.seconds * 1000).format('MMMM D YYYY, h:mm:ss a');
-          prestamo.dateFrom = moment(prestamo.fecha.seconds * 1000).startOf('day').fromNow();
+          prestamo.date = moment(new Date(prestamo.fecha.seconds * 1000)).format('MMMM D YYYY, h:mm:ss a');
+          prestamo.dateFrom = moment(new Date(prestamo.fecha.seconds * 1000)).startOf('hour').fromNow();
           if (fn) {
             fn(prestamo);
           } else {

@@ -2,7 +2,7 @@ MyApp.angular.controller('cbrInPrtmCtrl', ['$scope', '$rootScope', '$stateParams
   console.log('en el cbrInPrtmCtrl', $stateParams);
   MyApp.fw7.panel.close();
 
-  $scope.params = $stateParams;
+  $rootScope.params = $stateParams;
 
   $scope.cobros = {
     total: 0,
@@ -29,8 +29,8 @@ MyApp.angular.controller('cbrInPrtmCtrl', ['$scope', '$rootScope', '$stateParams
           var cobro = {};
           cobro = doc.data();
           console.log(new Date(cobro.fecha.seconds * 1000));
-          cobro.dateAbono = moment(cobro.fecha.seconds * 1000).format('MMMM D YYYY, h:mm:ss a');
-          cobro.dateFormAbono = moment(cobro.fecha.seconds * 1000).startOf('day').fromNow();
+          cobro.dateAbono = moment(new Date(cobro.fecha.seconds * 1000)).format('MMMM D YYYY, h:mm:ss a');
+          cobro.dateFormAbono = moment(new Date(cobro.fecha.seconds * 1000)).startOf('hour').fromNow();
           $scope.safeApply(function () {
             $scope.cobros.total += doc.data().abono;
             $scope.cobros.data.push(cobro);
@@ -50,5 +50,9 @@ MyApp.angular.controller('cbrInPrtmCtrl', ['$scope', '$rootScope', '$stateParams
       $scope.prtmDetail = prtm;
     });
   });
+
+  $scope.openNewCobro = function () {
+    newCobro.open();
+  };
 
 }]);

@@ -36,7 +36,7 @@ MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope
           cobro = doc.data();
           console.log(new Date(cobro.fecha.seconds * 1000));
           cobro.dateAbono = moment(cobro.fecha.seconds * 1000).format('MMMM D YYYY, h:mm:ss a');
-          cobro.dateFormAbono = moment(cobro.fecha.seconds * 1000).startOf('day').fromNow();
+          cobro.dateFormAbono = moment(cobro.fecha.seconds * 1000).startOf('hour').fromNow();
           $scope.safeApply(function () {
             $scope.cobros.total += doc.data().abono;
             $scope.cobros.data.push(cobro);

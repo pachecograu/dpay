@@ -32,7 +32,7 @@ MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParam
           };
           console.log(new Date(prestamo.data.fecha.seconds * 1000));
           prestamo.data.dateAbono = moment(new Date(prestamo.data.fecha.seconds * 1000)).format('MMMM D YYYY, h:mm:ss a');
-          prestamo.data.dateFormAbono = moment(new Date(prestamo.data.fecha.seconds * 1000)).startOf('day').fromNow();
+          prestamo.data.dateFormAbono = moment(new Date(prestamo.data.fecha.seconds * 1000)).startOf('hour').fromNow();
           $scope.safeApply(function () {
             $scope.prestamos.total += doc.data().valor;
             $scope.prestamos.data.push(prestamo);

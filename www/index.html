@@ -195,6 +195,58 @@
             </div>
           </div>
         </div>
+        <div class="card card-outline">
+          <div class="card-header">Calculo rapido</div>
+          <div class="card-content card-content-padding">
+            <div class="row">
+              <div class="col-50 text-align-right">
+                Saldo:
+              </div>
+              <div class="col-50">
+                {{prestamoItemCobro.valor | currency:"$":0}}
+              </div>
+              <div class="col-50 text-align-right">
+                Semanas:
+              </div>
+              <div class="col-50">
+                {{prestamoItemCobro.semanas}}
+              </div>
+              <div class="col-50 text-align-right">
+                %/semanas:
+              </div>
+              <div class="col-50">
+                {{prestamoItemCobro.semanas * 5}}%
+              </div>
+              <div class="col-50 text-align-right">
+                Total:
+              </div>
+              <div class="col-50">
+                {{prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semanas * 5) / 100)) | currency:"$":0}}
+              </div>
+              <div class="col-100">
+                <hr>
+              </div>
+              <div class="col-50 text-align-right">
+                X Dia:
+              </div>
+              <div class="col-50">
+                {{((prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semanas * 5) / 100))) / prestamoItemCobro.semanas) / 6 | currency:"$":0}}
+              </div>
+              <div class="col-50 text-align-right">
+                X Semana:
+              </div>
+              <div class="col-50">
+                {{(prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semanas * 5) / 100))) / prestamoItemCobro.semanas | currency:"$":0}}
+              </div>
+              <div class="col-50 text-align-right" ng-if="prestamoItemCobro.semanas  > 1">
+                X Quincena:
+              </div>
+              <div class="col-50" ng-if="prestamoItemCobro.semanas > 1">
+                {{((prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semanas * 5) / 100))) / prestamoItemCobro.semanas) * 2 | currency:"$":0}}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -405,7 +457,7 @@
                     <div class="item-title item-label">Valor del prestamo</div>
                     <div class="item-input-wrap">
                       <input type="number" ng-model="newPrestamos.valor"
-                        placeholder="Numero de documento de identidad">
+                        placeholder="Valor del prestamo">
                       <span class="input-clear-button"></span>
                     </div>
                   </div>
@@ -488,6 +540,65 @@
                   <button class="col button button-fill button-round" ng-click="savePrestamo(newPrestamos)">
                     Guardar
                     Prestamo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="popup" id="create-cobro">
+      <div class="view">
+        <div class="page">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="right">
+                <a class="link popup-close">
+                  <i class="icon material-icons">close</i>
+                </a>
+              </div>
+              <div class="title">Nuevo cobro</div>
+            </div>
+          </div>
+          <div class="page-content">
+            <div class="block-title">Diligencia cada campo</div>
+            <div class="list no-hairlines-md">
+              <ul>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                      <div class="row" style="width: 100%;">
+                        <div class="col-50">
+                          <a class="link popover-open" data-popover=".popover-viewUser"
+                            ng-click="viewUser(params.idUser)" style="text-decoration: underline">Ver
+                            cliente</a>
+                        </div>
+                        <div class="col-50 text-align-right">
+                          <a class="link popover-open" data-popover=".popover-viewPrestamo"
+                            ng-click="viewPrestamo(params.idPrtm)" style="text-decoration: underline">Detalles de
+                            prestamo</a>
+                        </div>
+                      </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Valor del abono</div>
+                    <div class="item-input-wrap">
+                      <input type="number" ng-model="newCobros.abono" placeholder="Valor del abono">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="block">
+              <div class="row">
+                <div class="col">
+                  <button class="col button button-fill button-round" ng-click="saveCobro(newCobros)">
+                    Guardar
+                    Cobro
                   </button>
                 </div>
               </div>
