@@ -26,6 +26,9 @@ var newUser = MyApp.fw7.popup.create({
 var editUser = MyApp.fw7.popup.create({
   el: '#edit-user'
 });
+var newPrestamo = MyApp.fw7.popup.create({
+  el: '#create-prestamo'
+});
 
 function notify(params) {
   var toast = MyApp.fw7.toast.create({

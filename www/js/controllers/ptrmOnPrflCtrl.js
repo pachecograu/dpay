@@ -2,7 +2,7 @@ MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParam
   console.log('en el ptrmOnPrflCtrl', $stateParams);
   MyApp.fw7.panel.close();
 
-  $scope.activoPrestamos = 'a';
+  $rootScope.paramUserId = $stateParams.idUser;
 
   $scope.prestamos = {
     total: 0,
@@ -26,15 +26,18 @@ MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParam
         MyApp.fw7.dialog.close();
         querySnapshot.forEach(function(doc) {
           console.log(doc.id, doc.data());
-          var cobro = {};
-          cobro = doc.data();
-          console.log(new Date(cobro.fecha.seconds * 1000));
-          cobro.dateAbono = moment(cobro.fecha.seconds * 1000).format('MMMM D YYYY, h:mm:ss a');
-          cobro.dateFormAbono = moment(cobro.fecha.seconds * 1000).startOf('day').fromNow();
+          var prestamo = {
+            id: doc.id,
+            data: doc.data()
+          };
+          console.log(new Date(prestamo.data.fecha.seconds * 1000));
+          prestamo.data.dateAbono = moment(new Date(prestamo.data.fecha.seconds * 1000)).format('MMMM D YYYY, h:mm:ss a');
+          prestamo.data.dateFormAbono = moment(new Date(prestamo.data.fecha.seconds * 1000)).startOf('day').fromNow();
           $scope.safeApply(function () {
             $scope.prestamos.total += doc.data().valor;
-            $scope.prestamos.data.push(cobro);
+            $scope.prestamos.data.push(prestamo);
           });
+          console.log($scope.prestamos)
         });
       });
   };
@@ -43,10 +46,10 @@ MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParam
     $scope.getPrestamos($stateParams.idUser);
   };
 
-  $scope.viewUser($stateParams.idUser, function (user) {
-    console.log(user);
-    $scope.userProfile = user;
-    $scope.getPrestamos($stateParams.idUser);
-  });
+  $scope.getPrestamos($stateParams.idUser);
+
+  $scope.openNewPrestamo = function () {
+    newPrestamo.open();
+  };
 
 }]);

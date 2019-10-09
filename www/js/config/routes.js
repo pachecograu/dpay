@@ -57,4 +57,9 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider, $httpProvider)
       templateUrl: "pages/prtm-on-profile.html",
       controller: "ptrmOnPrflCtrl"
     })
+    .state('cbr-in-prtm', {
+      url: "/cbr-in-prtm/:idUser/:idPrtm",
+      templateUrl: "pages/cbr-in-prtm.html",
+      controller: "cbrInPrtmCtrl"
+    })
 });

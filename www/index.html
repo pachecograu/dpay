@@ -376,7 +376,7 @@
       </div>
     </div>
 
-    <div class="popup" id="create-cobro">
+    <div class="popup" id="create-prestamo">
       <div class="view">
         <div class="page">
           <div class="navbar">
@@ -386,7 +386,7 @@
                   <i class="icon material-icons">close</i>
                 </a>
               </div>
-              <div class="title">Nuevo cliente</div>
+              <div class="title">Nuevo prestamo</div>
             </div>
           </div>
           <div class="page-content">
@@ -395,18 +395,16 @@
               <ul>
                 <li class="item-content item-input item-input-outline">
                   <div class="item-inner">
-                    <div class="item-title item-label">Nombres</div>
-                    <div class="item-input-wrap">
-                      <input type="text" ng-model="newUser.nombre" placeholder="Nombres completos">
-                      <span class="input-clear-button"></span>
-                    </div>
+                    <a class="link popover-open" data-popover=".popover-viewUser" ng-click="viewUser(paramUserId)"
+                      style="text-decoration: underline">Ver
+                      cliente</a>
                   </div>
                 </li>
                 <li class="item-content item-input item-input-outline">
                   <div class="item-inner">
-                    <div class="item-title item-label">Identificación</div>
+                    <div class="item-title item-label">Valor del prestamo</div>
                     <div class="item-input-wrap">
-                      <input type="text" ng-model="newUser.identificacion"
+                      <input type="number" ng-model="newPrestamos.valor"
                         placeholder="Numero de documento de identidad">
                       <span class="input-clear-button"></span>
                     </div>
@@ -414,48 +412,83 @@
                 </li>
                 <li class="item-content item-input item-input-outline">
                   <div class="item-inner">
-                    <div class="item-title item-label">Dirección</div>
+                    <div class="item-title item-label">
+                      <div class="row">
+                        <div class="col-70">
+                          Numero de semanas
+                        </div>
+                        <div class="col-30 text-align-right padding-right">
+                          5%
+                        </div>
+                      </div>
+                    </div>
                     <div class="item-input-wrap">
-                      <input type="text" ng-model="newUser.direccion" placeholder="Dirección de residencia">
+                      <input type="number" ng-model="newPrestamos.semanas" placeholder="Numero de semanas">
                       <span class="input-clear-button"></span>
                     </div>
-                  </div>
-                </li>
-                <li class="item-content item-input item-input-outline">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Telefono / Celular</div>
-                    <div class="item-input-wrap" ng-repeat="tel in newUser.telefono track by $index">
-                      <input type="text" ng-model="newUser.telefono[$index]" placeholder="Numero de Telefono/Celular">
-                      <span class="input-clear-button"></span>
-                    </div>
-                  </div>
-                  <div class="item-media" ng-click="addTelAndTp('tel')" style="align-self: initial;">
-                    <i class="icon material-icons" style="font-size: 36px;">add_circle</i>
-                  </div>
-                </li>
-                <li class="item-content item-input item-input-outline">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Tipo de pagos</div>
-                    <div class="item-input-wrap input-dropdown-wrap"
-                      ng-repeat="tpago in newUser.id_f_pago track by $index">
-                      <select ng-model="newUser.id_f_pago[$index].id" ng-change="changeFp(newUser.id_f_pago[$index])"
-                        placeholder="Selecciona">
-                        <option value="null">Seleccione</option>
-                        <option value="{{fp.id}}" ng-repeat="fp in fpagos track by $index">{{fp.descripcion}}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="item-media" ng-click="addTelAndTp('fpago')" style="align-self: initial;">
-                    <i class="icon material-icons" style="font-size: 36px;">add_circle</i>
                   </div>
                 </li>
               </ul>
             </div>
             <div class="block">
+              <div class="card card-outline">
+                <div class="card-header">Calculo rapido</div>
+                <div class="card-content card-content-padding">
+                  <div class="row">
+                    <div class="col-50 text-align-right">
+                      Saldo:
+                    </div>
+                    <div class="col-50">
+                      {{newPrestamos.valor | currency:"$":0}}
+                    </div>
+                    <div class="col-50 text-align-right">
+                      Semanas:
+                    </div>
+                    <div class="col-50">
+                      {{newPrestamos.semanas}}
+                    </div>
+                    <div class="col-50 text-align-right">
+                      %/semanas:
+                    </div>
+                    <div class="col-50">
+                      {{newPrestamos.semanas * 5}}%
+                    </div>
+                    <div class="col-50 text-align-right">
+                      Total:
+                    </div>
+                    <div class="col-50">
+                      {{newPrestamos.valor + (newPrestamos.valor  * ((newPrestamos.semanas * 5) / 100)) | currency:"$":0}}
+                    </div>
+                    <div class="col-100">
+                      <hr>
+                    </div>
+                    <div class="col-50 text-align-right">
+                      X Dia:
+                    </div>
+                    <div class="col-50">
+                      {{((newPrestamos.valor + (newPrestamos.valor  * ((newPrestamos.semanas * 5) / 100))) / newPrestamos.semanas) / 6 | currency:"$":0}}
+                    </div>
+                    <div class="col-50 text-align-right">
+                      X Semana:
+                    </div>
+                    <div class="col-50">
+                      {{(newPrestamos.valor + (newPrestamos.valor  * ((newPrestamos.semanas * 5) / 100))) / newPrestamos.semanas | currency:"$":0}}
+                    </div>
+                    <div class="col-50 text-align-right" ng-if="newPrestamos.semanas  > 1">
+                      X Quincena:
+                    </div>
+                    <div class="col-50" ng-if="newPrestamos.semanas > 1">
+                      {{((newPrestamos.valor + (newPrestamos.valor  * ((newPrestamos.semanas * 5) / 100))) / newPrestamos.semanas) * 2 | currency:"$":0}}
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="col">
-                  <button class="col button button-fill button-round" ng-click="saveUser(newUser)">Guardar
-                    cliente</button>
+                  <button class="col button button-fill button-round" ng-click="savePrestamo(newPrestamos)">
+                    Guardar
+                    Prestamo
+                  </button>
                 </div>
               </div>
             </div>
@@ -493,6 +526,7 @@
   <script src="js/controllers/cobrosCtrl.js" charset="utf-8"></script>
   <script src="js/controllers/prestamosCtrl.js" charset="utf-8"></script>
   <script src="js/controllers/ptrmOnPrflCtrl.js" charset="utf-8"></script>
+  <script src="js/controllers/cbrInPrtmCtrl.js"></script>
 </body>
 
 </html>

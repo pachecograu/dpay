@@ -2,11 +2,11 @@
 <div class="navbar" ng-show="userLoged.navbar">
     <div class="navbar-inner">
         <div class="left">
-            <a class="link icon-only" ui-sref="users">
+            <a ui-sref="users" class="link icon-only">
                 <i class="icon material-icons md-only">arrow_back</i>
             </a>
         </div>
-        <div class="title sliding text-align-center" style="width: 100%;">Detalles</div>
+        <div class="title sliding text-align-center" style="width: 100%;">DETALLES PRESTAMOS</div>
         <div class="right">
             <a class="link icon-only panel-open" data-panel="right">
                 <i class="icon f7-icons ios-only">menu</i>
@@ -20,38 +20,30 @@
     <div class="page-content hide-navbar-on-scroll">
         <div class="block-title ">
             <div class="row">
-                <div class="col-50"><b style="color: darkslategray">{{userProfile.nombre}}</b>
-                </div>
-                <div class="col-50">CC. {{userProfile.identificacion}}</div>
-                <div class="col-100"><b>Dirección:</b> {{userProfile.direccion}}</div>
-                <div class="col-50">
-                    <div class="row">
-                        <div class="col-100"><b>Telefonos</b></div>
-                    </div>
-                    <div class="row" ng-repeat="tel in userProfile.telefono">
-                        <div class="col-100"><b>{{$index+1}}):</b> {{tel}}</div>
-                    </div>
-                </div>
-                <div class="col-50">
-                    <div class="row">
-                        <div class="col-100"><b>Metodos de pago</b></div>
-                    </div>
-                    <div class="row" ng-repeat="fpago in userProfile.id_f_pago">
-                        <div class="col-100">{{fpago.descripcion}}</div>
-                    </div>
+                <div class="col-100">
+                    <a class="link popover-open" data-popover=".popover-viewUser"
+                        ng-click="viewUser(paramUserId)" style="text-decoration: underline">Ver
+                        cliente</a>
                 </div>
             </div>
             <div class="row margin-top">
                 <div class="col-60">
-                    {{users.length}} Registros
+                    <div class="row">
+                        <div class="col-100">
+                            {{prestamos.data.length}} Prestamos
+                        </div>
+                        <div class="col-100">
+                            Total: <b>{{prestamos.total | currency:"$":0}}</b>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-20">
-                    <button class="button button-link" ng-click="openNewUSer()">
+                    <button class="button button-link" ng-click="openNewPrestamo()">
                         <i class="icon material-icons" style="font-size: 36px;">add_circle_outline</i>
                     </button>
                 </div>
                 <div class="col-20">
-                    <button class="button button-link" ng-click="updateListUsers()">
+                    <button class="button button-link" ng-click="updateListPrestamos()">
                         <i class="icon material-icons" style="font-size: 36px;">loop</i>
                     </button>
                 </div>
@@ -60,28 +52,29 @@
         <div class="block">
             <div class="list no-margin-top">
                 <ul>
-                    <li ng-repeat="prestammo in prestamos.data track by $index">
-                        <a class="item-link item-content">
+                    <li ng-repeat="prestamo in prestamos.data track by $index">
+                        <a ui-sref="cbr-in-prtm({idUser: prestamo.data.id_usuario, idPrtm: prestamo.id})"
+                            class="item-link item-content">
                             <div class="item-inner item-cell">
                                 <div class="item-row">
                                     <div class="item-cell">
                                         <h3 class="no-margin">
-                                            <b>{{prestammo.valor | currency:"$":0}}</b>
+                                            <b>{{prestamo.data.valor | currency:"$":0}}</b>
                                         </h3>
                                     </div>
                                     <div class="item-cell text-align-right">
-                                        {{prestammo.dateFormAbono}}
+                                        {{prestamo.data.dateFormAbono}}
                                     </div>
                                 </div>
                                 <div class="item-row">
                                     <div class="item-cell">
-                                        <b class="margin-right">{{prestammo.semanas}} Semanas</b>
+                                        <b class="margin-right">{{prestamo.data.semanas}} Semanas</b>
                                     </div>
                                 </div>
                                 <div class="item-row">
                                     <div class="item-cell">
                                         <b class="margin-right">Fecha:</b>
-                                        {{prestammo.dateAbono}}
+                                        {{prestamo.data.dateAbono}}
                                     </div>
                                 </div>
                             </div>

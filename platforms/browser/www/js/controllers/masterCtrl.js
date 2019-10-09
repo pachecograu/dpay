@@ -34,6 +34,11 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
     data: []
   };
 
+  $scope.newPrestamos = {
+    valor: 0,
+    semanas: 0
+  };
+
   $scope.signOut = function () {
     MyApp.fw7.panel.close();
     firebase.auth().signOut();
@@ -213,6 +218,28 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
       });
   };
 
+  $scope.savePrestamo = function (prestamo) {
+    console.log(prestamo);
+    prestamo.id_usuario = $rootScope.paramUserId;
+    prestamo.fecha = new Date();
+    prestamo.activo = true;
+    MyApp.fw7.dialog.preloader('Guardando...');
+    $scope.db.collection("prestamos").add(prestamo)
+      .then(function (docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        // $scope.getUsers($rootScope.userStatus);
+        newPrestamo.close();
+        notify({
+          text: '¡Creado exitosamente!'
+        });
+        MyApp.fw7.dialog.close();
+      })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+        MyApp.fw7.dialog.close();
+      });
+  };
+
   $scope.viewUser = function (user, fn) {
     console.log(user);
     MyApp.fw7.preloader.show();
@@ -221,9 +248,9 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
         console.log(doc)
         if (doc.exists) {
           console.log("Document data:", doc.data());
-          if(fn){
+          if (fn) {
             fn(doc.data());
-          }else{
+          } else {
             $scope.safeApply(function () {
               $scope.userItemCobro = doc.data();
             });
@@ -236,7 +263,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
       });
   };
 
-  $scope.viewPrestamo = function (prestamo) {
+  $scope.viewPrestamo = function (prestamo, fn) {
     console.log(prestamo);
     MyApp.fw7.preloader.show();
     $scope.db.collection("prestamos").doc(prestamo)
@@ -247,9 +274,13 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
           var prestamo = doc.data();
           prestamo.date = moment(prestamo.fecha.seconds * 1000).format('MMMM D YYYY, h:mm:ss a');
           prestamo.dateFrom = moment(prestamo.fecha.seconds * 1000).startOf('day').fromNow();
-          $scope.safeApply(function () {
-            $scope.prestamoItemCobro = prestamo;
-          });
+          if (fn) {
+            fn(prestamo);
+          } else {
+            $scope.safeApply(function () {
+              $scope.prestamoItemCobro = prestamo;
+            });
+          }
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
