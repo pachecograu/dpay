@@ -1,0 +1,101 @@
+<!-- Top Navbar -->
+<div class="navbar" ng-show="userLoged.navbar">
+    <div class="navbar-inner">
+        <div class="left">
+            <a ui-sref="users" class="link icon-only">
+                <i class="icon material-icons md-only">arrow_back</i>
+            </a>
+        </div>
+        <div class="title sliding text-align-center" style="width: 100%;">DETALLES PRESTAMOS</div>
+        <div class="right">
+            <a class="link icon-only panel-open" data-panel="right">
+                <i class="icon f7-icons ios-only">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="page" data-name="home">
+    <div class="page-content back-pages hide-navbar-on-scroll">
+        <div class="block-title ">
+            <div class="row">
+                <div class="col-100">
+                    <a class="link popover-open" data-popover=".popover-viewUser"
+                        ng-click="viewUser(paramUserId)" style="text-decoration: underline">Ver
+                        cliente</a>
+                </div>
+            </div>
+            <div class="row margin-top">
+                <div class="col-60">
+                    <div class="row">
+                        <div class="col-100">
+                            {{prestamos.data.length}} Prestamos
+                        </div>
+                        <div class="col-100">
+                            Total: <b>{{prestamos.total | currency:"$":0}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-20">
+                    <button class="button button-link" ng-click="openNewPrestamo()">
+                        <i class="icon material-icons" style="font-size: 36px;">add_circle_outline</i>
+                    </button>
+                </div>
+                <div class="col-20">
+                    <button class="button button-link" ng-click="updateListPrestamos()">
+                        <i class="icon material-icons" style="font-size: 36px;">loop</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="list no-margin-top">
+                <ul>
+                    <li ng-repeat="prestamo in prestamos.data track by $index">
+                        <a ui-sref="cbr-in-prtm({idUser: prestamo.data.id_usuario, idPrtm: prestamo.id})"
+                            class="item-link item-content">
+                            <div class="item-inner item-cell">
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <h3 class="no-margin">
+                                            <b>{{prestamo.data.valor | currency:"$":0}}</b>
+                                        </h3>
+                                    </div>
+                                    <div class="item-cell text-align-right">
+                                        {{prestamo.data.dateTrans}} Sem. transcurridas
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <b class="margin-right">{{prestamo.data.semanas}} Semanas</b>
+                                    </div>
+                                    <div class="item-cell text-align-right">
+                                        <b class="margin-right">
+                                            {{prestamo.data.dateFormAbono}}
+                                        </b>
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <b class="margin-right">
+                                            ({{prestamo.data.valor | currency:"$":0}} +
+                                            {{prestamo.data.semPas * 5}}%) =
+                                            {{prestamo.data.valor + (prestamo.data.valor  * ((prestamo.data.semPas * 5) / 100)) | currency:"$":0}}
+                                        </b>
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <b class="margin-right">Desde:</b>
+                                        {{prestamo.data.dateAbono}}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

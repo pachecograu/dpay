@@ -1,0 +1,99 @@
+<!-- Top Navbar -->
+<div class="navbar" ng-show="userLoged.navbar">
+    <div class="navbar-inner">
+        <div class="left padding-horizontal">
+
+        </div>
+        <div class="title sliding text-align-center" style="width: 100%;">Usuarios</div>
+        <div class="right">
+            <a class="link icon-only panel-open" data-panel="right">
+                <i class="icon f7-icons ios-only">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="page" data-name="home">
+    <div class="page-content back-pages hide-navbar-on-scroll">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-60">
+                        <div class="list no-hairlines-md" style="margin: 0px;">
+                            <ul>
+                                <li class="item-content item-input item-input-outline">
+                                    <div class="item-inner">
+                                        <div class="item-input-wrap input-dropdown-wrap">
+                                            <select placeholder="Estado" ng-model="userStatus"
+                                                ng-change="changeStatus(userStatus)">
+                                                <option value="a">Activo</option>
+                                                <option value="i">Inactivo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> 
+                    <div class="col-20 padding-vertical">
+                        <button class="button button-link" ng-click="openNewUSer()">
+                            <i class="icon material-icons" style="font-size: 36px;">add_circle_outline</i>
+                        </button>
+                    </div>
+                    <div class="col-20 padding-vertical">
+                        <button class="button button-link" ng-click="updateListUsers()">
+                            <i class="icon material-icons" style="font-size: 36px;">loop</i>
+                        </button>
+                    </div>
+                    <div class="col-50 padding">
+                        {{users.length}} Registros
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="list">
+                <ul>
+                    <li class="swipeout" ng-repeat="user in users">
+                        <a ui-sref="prtm-on-profile({idUser: user.id})" class="item-link item-content swipeout-content">
+                            <div class="item-inner item-cell">
+                                <div class="item-row">
+                                    <div class="item-cell"><b>{{user.data.nombre}}</b>
+                                    </div>
+                                    <div class="item-cell">CC. {{user.data.identificacion}}</div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell"><b>Dirección:</b> {{user.data.direccion}}</div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>Telefonos</b></div>
+                                        </div>
+                                        <div class="item-row" ng-repeat="tel in user.data.telefono">
+                                            <div class="item-cell"><b>{{$index+1}}):</b> {{tel}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="item-cell">
+                                        <div class="item-row">
+                                            <div class="item-cell"><b>Metodos de pago</b></div>
+                                        </div>
+                                        <div class="item-row" ng-repeat="fpago in user.data.id_f_pago">
+                                            <div class="item-cell">{{fpago.descripcion}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="swipeout-actions-left">
+                            <a class="color-red alert-reply" ng-click="DeleteUser(user)"
+                                ng-if="userStatus == 'a'">Remover</a>
+                            <a class="color-blue alert-forward" ng-click="openEditUSer(user)">Editar</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+<!-- Top Navbar -->
+<div class="navbar" ng-show="userLoged.navbar">
+    <div class="navbar-inner">
+        <div class="left padding-horizontal">
+
+        </div>
+        <div class="title sliding text-align-center" style="width: 100%;">Cobros</div>
+        <div class="right">
+            <a class="link icon-only panel-open" data-panel="right">
+                <i class="icon f7-icons ios-only">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Toolbar-->
+<!-- <div class="toolbar toolbar-bottom">
+          <div class="toolbar-inner">
+            <a class="link">Left Link</a>
+            <a class="link">Right Link</a>
+          </div>
+        </div> -->
+<div class="page" data-name="home">
+    <div class="page-content back-pages hide-navbar-on-scroll">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-60">
+                        <div class="list no-hairlines-md" style="margin: 0px;">
+                            <ul>
+                                <li class="item-content item-input item-input-outline">
+                                    <div class="item-inner">
+                                        <div class="item-input-wrap input-dropdown-wrap">
+                                            <select placeholder="Estado" ng-model="activoCobros"
+                                                ng-change="changeStatus(activoCobros)">
+                                                <option value="a">Activo</option>
+                                                <option value="i">Inactivo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-20 padding-vertical">
+                        <button class="button button-link" ng-click="updateListCobros()">
+                            <i class="icon material-icons" style="font-size: 36px;">loop</i>
+                        </button>
+                    </div>
+                    <div class="col-50 padding">
+                        {{cobros.data.length}} Registros
+                    </div>
+                    <div class="col-50 padding text-align-right">
+                        Total: <b>{{cobros.total | currency:"$":0}}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="list">
+                <ul>
+                    <li ng-repeat="cobro in cobros.data track by $index">
+                        <div class="item-content">
+                            <div class="item-inner item-cell">
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <h3>
+                                            <b>{{cobro.abono | currency:"$":0}}</b>
+                                        </h3>
+                                    </div>
+                                    <div class="item-cell text-align-right">
+                                        {{cobro.dateFormAbono}}
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <b class="margin-right">Fecha:</b>
+                                        {{cobro.dateAbono}}
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <a class="link popover-open" data-popover=".popover-viewUser"
+                                            ng-click="viewUser(cobro.id_usuario)" style="text-decoration: underline">Ver
+                                            cliente</a>
+                                    </div>
+                                    <div class="item-cell text-align-right">
+                                        <a class="link popover-open" data-popover=".popover-viewPrestamo"
+                                            ng-click="viewPrestamo(cobro.id_prestamo)"
+                                            style="text-decoration: underline">Detalles de prestamo</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
