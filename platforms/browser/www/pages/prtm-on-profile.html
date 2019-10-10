@@ -63,17 +63,31 @@
                                         </h3>
                                     </div>
                                     <div class="item-cell text-align-right">
-                                        {{prestamo.data.dateFormAbono}}
+                                        {{prestamo.data.dateTrans}} Sem. transcurridas
                                     </div>
                                 </div>
                                 <div class="item-row">
                                     <div class="item-cell">
                                         <b class="margin-right">{{prestamo.data.semanas}} Semanas</b>
                                     </div>
+                                    <div class="item-cell text-align-right">
+                                        <b class="margin-right">
+                                            {{prestamo.data.dateFormAbono}}
+                                        </b>
+                                    </div>
                                 </div>
                                 <div class="item-row">
                                     <div class="item-cell">
-                                        <b class="margin-right">Fecha:</b>
+                                        <b class="margin-right">
+                                            ({{prestamo.data.valor | currency:"$":0}} +
+                                            {{prestamo.data.semanas * 5}}%) =
+                                            {{prestamo.data.valor + (prestamo.data.valor  * ((prestamo.data.semanas * 5) / 100)) | currency:"$":0}}
+                                        </b>
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <b class="margin-right">Desde:</b>
                                         {{prestamo.data.dateAbono}}
                                     </div>
                                 </div>

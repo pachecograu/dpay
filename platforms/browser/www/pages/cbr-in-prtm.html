@@ -37,14 +37,21 @@
                         <div class="col-100">
                             {{cobros.data.length}} Cobros
                         </div>
+                        <div class="col-100">
+                            {{prtmDetail.dateTrans}} Semanas transcurridas
+                        </div>
                         <div>
-                            Prestamo de <b>{{prtmDetail.valor | currency:"$":0}}</b>
+                            Prestamo de 
+                            <b>
+                                {{prtmDetail.valor + (prtmDetail.valor  * ((prtmDetail.semPas * 5) / 100)) | currency:"$":0}}
+                            </b>
                         </div>
                         <div class="col-100">
                             Total cobros: <b>{{cobros.total | currency:"$":0}}</b>
                         </div>
                         <div class="col-100">
-                            Total restante: <b>{{prtmDetail.valor - cobros.total | currency:"$":0}}</b>
+                            Total restante:
+                            <b>{{(prtmDetail.valor + (prtmDetail.valor  * ((prtmDetail.semPas * 5) / 100))) - cobros.total | currency:"$":0}}</b>
                         </div>
                     </div>
                 </div>

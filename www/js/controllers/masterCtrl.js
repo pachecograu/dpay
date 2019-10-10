@@ -301,6 +301,11 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
           var prestamo = doc.data();
           prestamo.date = moment(new Date(prestamo.fecha.seconds * 1000)).format('MMMM D YYYY, h:mm:ss a');
           prestamo.dateFrom = moment(new Date(prestamo.fecha.seconds * 1000)).startOf('hour').fromNow();
+          prestamo.dateTrans = moment(new Date()).diff(moment(new Date(prestamo.fecha.seconds * 1000)), 'weeks');
+          prestamo.semPas = prestamo.semanas;
+          if (prestamo.dateTrans > prestamo.semanas) {
+            prestamo.semPas = prestamo.dateTrans;
+          }
           if (fn) {
             fn(prestamo);
           } else {

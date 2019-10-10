@@ -193,6 +193,9 @@
             <div class="col-50 text-align-right">
               <b>Tiempo:</b> {{prestamoItemCobro.semanas}} Semanas
             </div>
+            <div class="col-100">
+              {{prestamoItemCobro.dateTrans}} Semanas transcurridas
+            </div>
           </div>
         </div>
         <div class="card card-outline">
@@ -209,19 +212,19 @@
                 Semanas:
               </div>
               <div class="col-50">
-                {{prestamoItemCobro.semanas}}
+                {{prestamoItemCobro.semPas}}
               </div>
               <div class="col-50 text-align-right">
                 %/semanas:
               </div>
               <div class="col-50">
-                {{prestamoItemCobro.semanas * 5}}%
+                {{prestamoItemCobro.semPas * 5}}%
               </div>
               <div class="col-50 text-align-right">
                 Total:
               </div>
               <div class="col-50">
-                {{prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semanas * 5) / 100)) | currency:"$":0}}
+                {{prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semPas * 5) / 100)) | currency:"$":0}}
               </div>
               <div class="col-100">
                 <hr>
@@ -230,19 +233,19 @@
                 X Dia:
               </div>
               <div class="col-50">
-                {{((prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semanas * 5) / 100))) / prestamoItemCobro.semanas) / 6 | currency:"$":0}}
+                {{((prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semPas * 5) / 100))) / prestamoItemCobro.semPas) / 6 | currency:"$":0}}
               </div>
               <div class="col-50 text-align-right">
                 X Semana:
               </div>
               <div class="col-50">
-                {{(prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semanas * 5) / 100))) / prestamoItemCobro.semanas | currency:"$":0}}
+                {{(prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semPas * 5) / 100))) / prestamoItemCobro.semPas | currency:"$":0}}
               </div>
-              <div class="col-50 text-align-right" ng-if="prestamoItemCobro.semanas  > 1">
+              <div class="col-50 text-align-right" ng-if="prestamoItemCobro.semPas  > 1">
                 X Quincena:
               </div>
-              <div class="col-50" ng-if="prestamoItemCobro.semanas > 1">
-                {{((prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semanas * 5) / 100))) / prestamoItemCobro.semanas) * 2 | currency:"$":0}}
+              <div class="col-50" ng-if="prestamoItemCobro.semPas > 1">
+                {{((prestamoItemCobro.valor + (prestamoItemCobro.valor  * ((prestamoItemCobro.semPas * 5) / 100))) / prestamoItemCobro.semPas) * 2 | currency:"$":0}}
               </div>
             </div>
           </div>

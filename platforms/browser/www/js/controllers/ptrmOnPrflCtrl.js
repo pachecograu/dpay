@@ -33,11 +33,12 @@ MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParam
           console.log(new Date(prestamo.data.fecha.seconds * 1000));
           prestamo.data.dateAbono = moment(new Date(prestamo.data.fecha.seconds * 1000)).format('MMMM D YYYY, h:mm:ss a');
           prestamo.data.dateFormAbono = moment(new Date(prestamo.data.fecha.seconds * 1000)).startOf('hour').fromNow();
+          prestamo.data.dateTrans = moment(new Date()).diff(moment(new Date(prestamo.data.fecha.seconds * 1000)), 'weeks');
           $scope.safeApply(function () {
             $scope.prestamos.total += doc.data().valor;
             $scope.prestamos.data.push(prestamo);
           });
-          console.log($scope.prestamos)
+          console.log($scope.prestamos);
         });
       });
   };
