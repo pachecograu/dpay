@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="css/app.css">
 </head>
 
-<body ng-app="Dpay" ng-controller="masterCtrl">
+<body class="theme-dark color-theme-white" ng-app="Dpay" ng-controller="masterCtrl">
   <div id="app">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar"></div>
@@ -256,7 +256,7 @@
     <!-- Popup -->
     <div class="popup" id="create-user">
       <div class="view">
-        <div class="page">
+        <div class="page back-pages">
           <div class="navbar">
             <div class="navbar-inner">
               <div class="right">
@@ -332,7 +332,8 @@
             <div class="block">
               <div class="row">
                 <div class="col">
-                  <button class="col button button-fill button-round" ng-click="saveUser(newUser)">Guardar
+                  <button class="col button button-fill button-round text-color-black"
+                    ng-click="saveUser(newUser)">Guardar
                     cliente</button>
                 </div>
               </div>
@@ -344,7 +345,7 @@
 
     <div class="popup" id="edit-user">
       <div class="view">
-        <div class="page">
+        <div class="page back-pages">
           <div class="navbar">
             <div class="navbar-inner">
               <div class="right">
@@ -421,7 +422,8 @@
             <div class="block">
               <div class="row">
                 <div class="col">
-                  <button class="col button button-fill button-round" ng-click="UpdateUser(editUser)">Actualizar
+                  <button class="col button button-fill button-round text-color-black"
+                    ng-click="UpdateUser(editUser)">Actualizar
                     cliente</button>
                 </div>
               </div>
@@ -433,7 +435,7 @@
 
     <div class="popup" id="create-prestamo">
       <div class="view">
-        <div class="page">
+        <div class="page back-pages">
           <div class="navbar">
             <div class="navbar-inner">
               <div class="right">
@@ -479,6 +481,15 @@
                     </div>
                     <div class="item-input-wrap">
                       <input type="number" ng-model="newPrestamos.semanas" placeholder="Numero de semanas">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Selecciona la fecha</div>
+                    <div class="item-input-wrap">
+                      <input type="datetime-local" ng-model="newPrestamos.fecha" style="max-width: 100%;">
                       <span class="input-clear-button"></span>
                     </div>
                   </div>
@@ -540,7 +551,8 @@
               </div>
               <div class="row">
                 <div class="col">
-                  <button class="col button button-fill button-round" ng-click="savePrestamo(newPrestamos)">
+                  <button class="col button button-fill button-round text-color-black"
+                    ng-click="savePrestamo(newPrestamos)">
                     Guardar
                     Prestamo
                   </button>
@@ -554,7 +566,7 @@
 
     <div class="popup" id="create-cobro">
       <div class="view">
-        <div class="page">
+        <div class="page back-pages">
           <div class="navbar">
             <div class="navbar-inner">
               <div class="right">
@@ -594,12 +606,21 @@
                     </div>
                   </div>
                 </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Selecciona la fecha</div>
+                    <div class="item-input-wrap">
+                      <input type="datetime-local" ng-model="newPrestamos.fecha" style="max-width: 100%;">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="block">
               <div class="row">
                 <div class="col">
-                  <button class="col button button-fill button-round" ng-click="saveCobro(newCobros)">
+                  <button class="col button button-fill button-round text-color-black" ng-click="saveCobro(newCobros)">
                     Guardar
                     Cobro
                   </button>

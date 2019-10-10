@@ -32,14 +32,19 @@ MyApp.angular.controller('prestamosCtrl', ['$scope', '$rootScope', function ($sc
         MyApp.fw7.dialog.close();
         querySnapshot.forEach(function(doc) {
           console.log(doc.id, doc.data());
-          var cobro = {};
-          cobro = doc.data();
-          console.log(new Date(cobro.fecha.seconds * 1000));
-          cobro.dateAbono = moment(cobro.fecha.seconds * 1000).format('MMMM D YYYY, h:mm:ss a');
-          cobro.dateFormAbono = moment(cobro.fecha.seconds * 1000).startOf('hour').fromNow();
+          var prestamo = {};
+          prestamo = doc.data();
+          console.log(new Date(prestamo.fecha.seconds * 1000));
+          prestamo.dateAbono = moment(prestamo.fecha.seconds * 1000).format('MMMM D YYYY, h:mm:ss a');
+          prestamo.dateFormAbono = moment(prestamo.fecha.seconds * 1000).startOf('second').fromNow();
+          prestamo.dateTrans = moment(new Date()).diff(moment(new Date(prestamo.fecha.seconds * 1000)), 'weeks');
+          prestamo.semPas = prestamo.semanas;
+          if (prestamo.dateTrans > prestamo.semanas) {
+            prestamo.semPas = prestamo.dateTrans;
+          }
           $scope.safeApply(function () {
             $scope.prestamos.total += doc.data().valor;
-            $scope.prestamos.data.push(cobro);
+            $scope.prestamos.data.push(prestamo);
           });
         });
       });

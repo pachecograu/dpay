@@ -1,6 +1,11 @@
 <div class="page no-navbar no-toolbar no-swipeback" data-name="login">
-  <div class="page-content login-screen-content">
-    <div class="login-screen-title">D'Pay</div>
+  <div class="page-content login-screen-content background-gradient">
+    <div class="login-screen-title">
+      <img src="img/logo.png" style="width: 100%;filter: invert(1);" alt="">
+    </div>
+    <div class="login-screen-title">
+      <b>D'Pay</b>
+    </div>
     <form>
       <div class="list">
         <ul>
@@ -22,14 +27,13 @@
           </li>
         </ul>
       </div>
-      <div class="list">
-        <ul>
-          <li><a class="item-link list-button" ng-click="onSignIn(user)">Inciar</a></li>
-        </ul>
-        <div class="block-footer">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <p><a class="link login-screen-close" href="#">Close Login Screen</a></p>
-        </div>
+      <div class="row">
+        <div class="col-25"></div>
+        <div class="col-50">
+          <button class="button button-raised button-fill button-round text-color-red"
+              ng-click="onSignIn(user)">Inciar</button>
+          </div>
+          <div class="col-25"></div>
       </div>
     </form>
   </div>

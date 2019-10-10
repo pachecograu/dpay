@@ -27,6 +27,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
   $scope.users = [];
   $scope.prestamos = {
     total: 0,
+    totalCartera: 0,
     data: []
   };
   $scope.cobros = {
@@ -36,11 +37,13 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
 
   $scope.newPrestamos = {
     valor: 0,
-    semanas: 0
+    semanas: 0,
+    fecha: new Date()
   };
 
   $scope.newCobros = {
-    abono: 0
+    abono: 0,
+    fecha: new Date()
   };
 
   $scope.signOut = function () {
@@ -225,7 +228,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
   $scope.savePrestamo = function (prestamo) {
     console.log(prestamo);
     prestamo.id_usuario = $rootScope.paramUserId;
-    prestamo.fecha = new Date();
+    // prestamo.fecha = new Date();
     prestamo.activo = true;
     MyApp.fw7.dialog.preloader('Guardando...');
     $scope.db.collection("prestamos").add(prestamo)
@@ -248,7 +251,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
     console.log(cobro);
     cobro.id_usuario = $rootScope.params.idUser;
     cobro.id_prestamo = $rootScope.params.idPrtm;
-    cobro.fecha = new Date();
+    // cobro.fecha = new Date();
     cobro.activo = true;
     MyApp.fw7.dialog.preloader('Guardando...');
     $scope.db.collection("cobros").add(cobro)
@@ -300,7 +303,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', function ($scope
           console.log("Document data:", doc.data());
           var prestamo = doc.data();
           prestamo.date = moment(new Date(prestamo.fecha.seconds * 1000)).format('MMMM D YYYY, h:mm:ss a');
-          prestamo.dateFrom = moment(new Date(prestamo.fecha.seconds * 1000)).startOf('hour').fromNow();
+          prestamo.dateFrom = moment(new Date(prestamo.fecha.seconds * 1000)).startOf('second').fromNow();
           prestamo.dateTrans = moment(new Date()).diff(moment(new Date(prestamo.fecha.seconds * 1000)), 'weeks');
           prestamo.semPas = prestamo.semanas;
           if (prestamo.dateTrans > prestamo.semanas) {

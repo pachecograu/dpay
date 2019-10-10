@@ -21,13 +21,25 @@
           </div>
         </div> -->
 <div class="page" data-name="home">
-    <div class="page-content hide-navbar-on-scroll">
+    <div class="page-content back-pages hide-navbar-on-scroll">
+        <div class="card">
+            <div class="card-content">
+               <div class="row">
+                    <div class="col-100 text-align-center padding">
+                        <i class="icon material-icons" style="font-size: 114px;">account_circle</i>
+                    </div>
+                    <div class="col-100 text-align-center padding no-padding-top">
+                        {{userLoged.email}}
+                    </div>
+               </div>
+            </div>
+        </div>
         <div class="block-title">
             <div class="row">
-                <div class="col-80">
+                <!-- <div class="col-80">
                     <h3>Datos rapidos</h3>
-                </div>
-                <div class="col-20">
+                </div> -->
+                <div class="col-100 text-align-right">
                     <button class="col button button-link" ng-click="updateDashboard()">
                         <i class="icon material-icons" style="font-size: 36px;">loop</i>
                     </button>
@@ -36,7 +48,7 @@
         </div>
         <div class="block">
             <div class="row">
-                <div class="col">
+                <div class="col-50 padding">
                     <div class="row" style="text-align: center;">
                         <div class="col-100">
                             <i class="icon material-icons md-only" style="font-size: 70px;">face</i>
@@ -49,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-50 padding">
                     <div class="row" style="text-align: center;">
                         <div class="col-100">
                             <i class="icon material-icons md-only"
@@ -64,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-50 padding">
                     <div class="row" style="text-align: center;">
                         <div class="col-100">
                             <i class="icon material-icons md-only"
@@ -76,6 +88,19 @@
                         </div>
                         <div class="col-100">
                             #{{cobros.data.length}} {{cobros.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only" style="font-size: 70px;">account_balance_wallet</i>
+                        </div>
+                        <div class="col-100">
+                            Cartera
+                        </div>
+                        <div class="col-100">
+                            {{prestamos.totalCartera - cobros.total | currency:"$":0}}
                         </div>
                     </div>
                 </div>

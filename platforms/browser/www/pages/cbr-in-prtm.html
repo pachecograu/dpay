@@ -17,7 +17,7 @@
 </div>
 
 <div class="page" data-name="home">
-    <div class="page-content hide-navbar-on-scroll">
+    <div class="page-content back-pages hide-navbar-on-scroll">
         <div class="block-title ">
             <div class="row">
                 <div class="col-50">
@@ -50,13 +50,14 @@
                             Total cobros: <b>{{cobros.total | currency:"$":0}}</b>
                         </div>
                         <div class="col-100">
-                            Total restante:
+                            Total cartera:
                             <b>{{(prtmDetail.valor + (prtmDetail.valor  * ((prtmDetail.semPas * 5) / 100))) - cobros.total | currency:"$":0}}</b>
                         </div>
                     </div>
                 </div>
                 <div class="col-20">
-                    <button class="button button-link" ng-click="openNewCobro()">
+                    <button class="button button-link" ng-click="openNewCobro()"
+                        ng-hide="cobros.total >= prtmDetail.valor + (prtmDetail.valor * ((prtmDetail.semPas * 5) / 100))">
                         <i class="icon material-icons" style="font-size: 36px;">add_circle_outline</i>
                     </button>
                 </div>

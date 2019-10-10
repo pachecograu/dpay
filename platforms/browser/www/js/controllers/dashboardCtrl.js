@@ -18,14 +18,22 @@ MyApp.angular.controller('dashboardCtrl', ['$scope', function ($scope) {
     $scope.db.collection("prestamos").get().then((querySnapshot) => {
       $scope.prestamos = {
         total: 0,
+        totalCartera: 0,
         data: []
       };
       MyApp.fw7.preloader.hide();
       querySnapshot.forEach((doc) => {
         console.log(doc.id, doc.data());
         $scope.safeApply(function () {
-          $scope.prestamos.total += doc.data().valor;
-          $scope.prestamos.data.push(doc.data());
+          var prestamo = doc.data();
+          prestamo.dateTrans = moment(new Date()).diff(moment(new Date(prestamo.fecha.seconds * 1000)), 'weeks');
+          prestamo.semPas = prestamo.semanas;
+          if (prestamo.dateTrans > prestamo.semanas) {
+            prestamo.semPas = prestamo.dateTrans;
+          }
+          $scope.prestamos.total += prestamo.valor;
+          $scope.prestamos.totalCartera += prestamo.valor + (prestamo.valor * ((prestamo.semPas * 5) / 100));
+          $scope.prestamos.data.push(prestamo);
         });
       });
     });
