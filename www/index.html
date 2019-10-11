@@ -12,8 +12,15 @@
       * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
           * Enable inline JS: add 'unsafe-inline' to default-src
   -->
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:">
+  <meta http-equiv="Content-Security-Policy" content="
+           default-src 'self' *.googleapis.com data: gap:
+               https://ssl.gstatic.com;
+           script-src 'self' 'unsafe-inline' 'unsafe-eval'
+               https://*.gstatic.com https://*.googleapis.com;
+           style-src 'self' 'unsafe-inline';
+           media-src *;
+           connect-src *
+       ">
   <meta name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -634,9 +641,9 @@
 
   </div>
   <!-- Cordova -->
-  <!--
+  
   <script src="cordova.js"></script>
-  -->
+ 
 
   <!-- Framework7 library -->
   <script src="framework7/js/framework7.bundle.min.js"></script>

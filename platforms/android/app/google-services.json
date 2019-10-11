@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1091066079150",
+    "firebase_url": "https://d-pay-c6ed3.firebaseio.com",
+    "project_id": "d-pay-c6ed3",
+    "storage_bucket": "d-pay-c6ed3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091066079150:android:64241e02c456e5ffeb0a3f",
+        "android_client_info": {
+          "package_name": "com.wlozano.dpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091066079150-ju1aag4l15inv5tk1n7o4spo0k4k5ra7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT7qsANooiCLQYg8ZPnSKz_DzylwoWGIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091066079150-ju1aag4l15inv5tk1n7o4spo0k4k5ra7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

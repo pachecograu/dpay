@@ -41,15 +41,44 @@ function notify(params) {
   toast.open();
 }
 
-// Your web app's Firebase configuration
-var firebaseConfig = {
-  apiKey: "AIzaSyCjAHKrbSJcWcOvTNYuabPilKauSr1J1h8",
-  authDomain: "d-pay-c6ed3.firebaseapp.com",
-  databaseURL: "https://d-pay-c6ed3.firebaseio.com",
-  projectId: "d-pay-c6ed3",
-  storageBucket: "d-pay-c6ed3.appspot.com",
-  messagingSenderId: "1091066079150",
-  appId: "1:1091066079150:web:5c5c1bc4505b2f75"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+var firestoreDpay;
+
+
+  if (cordova.platformId === "browser") {
+
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCjAHKrbSJcWcOvTNYuabPilKauSr1J1h8",
+      authDomain: "d-pay-c6ed3.firebaseapp.com",
+      databaseURL: "https://d-pay-c6ed3.firebaseio.com",
+      projectId: "d-pay-c6ed3",
+      storageBucket: "d-pay-c6ed3.appspot.com",
+      messagingSenderId: "1091066079150",
+      appId: "1:1091066079150:web:5c5c1bc4505b2f75"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    firestoreDpay = firebase.firestore();
+  }else{
+    var options = {
+      "datePrefix": '__DATE:',
+      "fieldValueDelete": "__DELETE",
+      "fieldValueServerTimestamp": "__SERVERTIMESTAMP",
+      "persist": true,
+      //"config": {}
+    };
+
+    Firestore.initialise(options).then(function (db) {
+      // db.get().collection("forma_pago").get().then(function (querySnapshot) {
+      //   querySnapshot.forEach(function (doc) {
+      //     alert(doc.id + ' ' + JSON.stringify(doc.data()));
+      //   });
+      // });
+      firestoreDpay = db.get();
+    });
+  }
+
+  
+
+console.log(cordova, window);

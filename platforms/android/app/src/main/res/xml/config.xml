@@ -1,5 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wlozano.dpay" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <feature name="FirebasePlugin">
+        <param name="android-package" value="org.apache.cordova.firebase.FirebasePlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="FirebaseAuthentication">
+        <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseAuthenticationPlugin" />
+        <param name="onload" value="false" />
+    </feature>
+    <feature name="Firestore">
+        <param name="android-package" value="uk.co.reallysmall.cordova.plugin.firestore.FirestorePlugin" />
+        <param name="onload" value="true" />
+    </feature>
     <name>Dpay</name>
     <description>
         A blank PhoneGap app.
@@ -9,5 +21,6 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <resource-file src="google-services.json" target="app/google-services.json" />
     <preference name="loglevel" value="DEBUG" />
 </widget>
