@@ -24,7 +24,7 @@ MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope
       }
       MyApp.fw7.dialog.preloader('Cargando...');
       $scope.db.collection("cobros").where("activo", "==", activo)
-        .get()
+        .get(getOptions)
         .then(function (querySnapshot) {
           $scope.cobros = {
             total: 0,
@@ -41,6 +41,9 @@ MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope
             $scope.safeApply(function () {
               $scope.cobros.total += doc.data().abono;
               $scope.cobros.data.push(cobro);
+            });
+            $scope.cobros.data.sort(function (a, b) {
+              return new Date(b.fecha) - new Date(a.fecha);
             });
           });
         });

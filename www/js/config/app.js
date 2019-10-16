@@ -32,6 +32,9 @@ var newPrestamo = MyApp.fw7.popup.create({
 var newCobro = MyApp.fw7.popup.create({
   el: '#create-cobro'
 });
+var newEgreso = MyApp.fw7.popup.create({
+  el: '#create-egreso'
+});
 
 function notify(params) {
   var toast = MyApp.fw7.toast.create({
@@ -42,7 +45,9 @@ function notify(params) {
 }
 
 var firestoreDpay;
-
+var getOptions = {
+  source: 'cache'
+};
 
   if (cordova.platformId === "browser") {
 

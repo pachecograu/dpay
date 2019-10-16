@@ -62,4 +62,9 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider, $httpProvider)
       templateUrl: "pages/cbr-in-prtm.html",
       controller: "cbrInPrtmCtrl"
     })
+    .state('egresos', {
+      url: "/egresos",
+      templateUrl: "pages/egresos.html",
+      controller: "egresosCtrl"
+    })
 });

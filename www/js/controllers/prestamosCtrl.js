@@ -24,7 +24,7 @@ MyApp.angular.controller('prestamosCtrl', ['$scope', '$rootScope', function ($sc
       }
       MyApp.fw7.dialog.preloader('Cargando...');
       $scope.db.collection("prestamos").where("activo", "==", activo)
-        .get()
+        .get(getOptions)
         .then(function (querySnapshot) {
           $scope.prestamos = {
             total: 0,
@@ -46,6 +46,9 @@ MyApp.angular.controller('prestamosCtrl', ['$scope', '$rootScope', function ($sc
             $scope.safeApply(function () {
               $scope.prestamos.total += doc.data().valor;
               $scope.prestamos.data.push(prestamo);
+            });
+            $scope.prestamos.data.sort(function (a, b) {
+              return new Date(b.fecha) - new Date(a.fecha);
             });
           });
         });

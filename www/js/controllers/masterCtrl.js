@@ -46,6 +46,12 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
     fecha: new Date()
   };
 
+  $scope.newEgresos = {
+    valor: 0,
+    fecha: new Date(),
+    descripcion: ''
+  };
+
   $scope.signOut = function () {
     MyApp.fw7.panel.close();
     cordova.plugins.firebase.auth.signOut();
@@ -102,7 +108,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
   }
 
   try {
-    $scope.db.collection("forma_pago").get().then(function (querySnapshot) {
+    $scope.db.collection("forma_pago").get(getOptions).then(function (querySnapshot) {
       $scope.fpagos = [];
       querySnapshot.forEach(function (doc) {
         console.log(doc.id, doc.data());
@@ -127,17 +133,22 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
         activo = false;
       }
       MyApp.fw7.dialog.preloader('Cargando...');
-      $scope.db.collection("usuarios").where("activo", "==", activo)
-        .get()
+      $scope.db.collection("usuarios")
+        // .orderBy("creado", "desc")
+        .where("activo", "==", activo)
+        .get(getOptions)
         .then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {
-            console.log(doc.id, doc.data());
+            // console.log(doc.id, doc.data());
             var user = {
               id: doc.id,
               data: doc.data()
             };
             $scope.safeApply(function () {
               $scope.users.push(user);
+            });
+            $scope.users.sort(function (a, b) {
+              return new Date(b.data.creado) - new Date(a.data.creado);
             });
           });
           MyApp.fw7.dialog.close();
@@ -302,12 +313,37 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
     }
   };
 
+  $scope.saveEgreso = function (egreso) {
+    try {
+      console.log(egreso);
+      // egreso.fecha = new Date();
+      egreso.activo = true;
+      MyApp.fw7.dialog.preloader('Guardando...');
+      $scope.db.collection("egresos").add(egreso)
+        .then(function (docRef) {
+          console.log("Document written with ID: ", docRef.id);
+          // $scope.getUsers($rootScope.userStatus);
+          newEgreso.close();
+          notify({
+            text: '¡Creado exitosamente!'
+          });
+          MyApp.fw7.dialog.close();
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+          MyApp.fw7.dialog.close();
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   $scope.viewUser = function (user, fn) {
     try {
       console.log(user);
       MyApp.fw7.preloader.show();
       $scope.db.collection("usuarios").doc(user)
-        .get().then(function (doc) {
+        .get(getOptions).then(function (doc) {
           console.log(doc)
           if (doc.exists) {
             console.log("Document data:", doc.data());
@@ -334,7 +370,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
       console.log(prestamo);
       MyApp.fw7.preloader.show();
       $scope.db.collection("prestamos").doc(prestamo)
-        .get().then(function (doc) {
+        .get(getOptions).then(function (doc) {
           console.log(doc);
           if (doc.exists) {
             // alert("Document data: " + JSON.stringify(doc.data()));

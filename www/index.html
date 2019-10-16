@@ -91,7 +91,7 @@
                     <a ui-sref="users" class="item-link item-content">
                       <div class="item-media"><i class="icon material-icons">face</i></div>
                       <div class="item-inner">
-                        <div class="item-title">Usuarios</div>
+                        <div class="item-title">Clientes</div>
                       </div>
                     </a>
                   </li>
@@ -108,6 +108,14 @@
                       <div class="item-media"><i class="icon material-icons">call_received</i></div>
                       <div class="item-inner">
                         <div class="item-title">Cobros</div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a ui-sref="egresos" class="item-link item-content">
+                      <div class="item-media"><i class="icon material-icons">redo</i></div>
+                      <div class="item-inner">
+                        <div class="item-title">Egresos</div>
                       </div>
                     </a>
                   </li>
@@ -617,7 +625,7 @@
                   <div class="item-inner">
                     <div class="item-title item-label">Selecciona la fecha</div>
                     <div class="item-input-wrap">
-                      <input type="datetime-local" ng-model="newPrestamos.fecha" style="max-width: 100%;">
+                      <input type="datetime-local" ng-model="newCobros.fecha" style="max-width: 100%;">
                       <span class="input-clear-button"></span>
                     </div>
                   </div>
@@ -630,6 +638,67 @@
                   <button class="col button button-fill button-round text-color-black" ng-click="saveCobro(newCobros)">
                     Guardar
                     Cobro
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="popup" id="create-egreso">
+      <div class="view">
+        <div class="page back-pages">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="right">
+                <a class="link popup-close">
+                  <i class="icon material-icons">close</i>
+                </a>
+              </div>
+              <div class="title">Nuevo egreso</div>
+            </div>
+          </div>
+          <div class="page-content">
+            <div class="block-title">Diligencia cada campo</div>
+            <div class="list no-hairlines-md">
+              <ul>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Valor del egreso</div>
+                    <div class="item-input-wrap">
+                      <input type="number" ng-model="newEgresos.valor" placeholder="Valor del egreso">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Selecciona la fecha</div>
+                    <div class="item-input-wrap">
+                      <input type="datetime-local" ng-model="newEgresos.fecha" style="max-width: 100%;">
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                 <li class="item-content item-input item-input-outline">
+                   <div class="item-inner">
+                     <div class="item-title item-label">Descripción</div>
+                     <div class="item-input-wrap">
+                       <textarea class="resizable" ng-model="newEgresos.descripcion"
+                         placeholder="Razón de egreso"></textarea>
+                     </div>
+                   </div>
+                 </li>
+              </ul>
+            </div>
+            <div class="block">
+              <div class="row">
+                <div class="col">
+                  <button class="col button button-fill button-round text-color-black" ng-click="saveEgreso(newEgresos)">
+                    Guardar
+                    Egreso
                   </button>
                 </div>
               </div>
@@ -669,6 +738,7 @@
   <script src="js/controllers/prestamosCtrl.js" charset="utf-8"></script>
   <script src="js/controllers/ptrmOnPrflCtrl.js" charset="utf-8"></script>
   <script src="js/controllers/cbrInPrtmCtrl.js"></script>
+  <script src="js/controllers/egresosCtrl.js"></script>
 </body>
 
 </html>

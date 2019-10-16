@@ -1,5 +1,5 @@
 <!-- Top Navbar -->
-<div class="navbar" >
+<div class="navbar">
     <div class="navbar-inner">
         <div class="left">
             <a ui-sref="prtm-on-profile({idUser: params.idUser})" class="link icon-only">
@@ -15,7 +15,14 @@
         </div>
     </div>
 </div>
-
+<div class="subnavbar">
+    <div class="subnavbar-inner">
+        <div class="segmented segmented-raised">
+            <a ng-repeat="tab in tabs track by $index" ng-click="tabChange(tab)"
+                class="button {{tab.class}}">{{tab.text}}</a>
+        </div>
+    </div>
+</div>
 <div class="page" data-name="home">
     <div class="page-content back-pages hide-navbar-on-scroll">
         <div class="block-title ">
@@ -41,7 +48,7 @@
                             {{prtmDetail.dateTrans}} Semanas transcurridas
                         </div>
                         <div>
-                            Prestamo de 
+                            Prestamo de
                             <b>
                                 {{prtmDetail.valor + (prtmDetail.valor  * ((prtmDetail.semPas * 5) / 100)) | currency:"$":0}}
                             </b>
@@ -68,32 +75,77 @@
                 </div>
             </div>
         </div>
-        <div class="block">
-            <div class="list no-margin-top">
-                <ul>
-                    <li ng-repeat="cobro in cobros.data track by $index">
-                        <a class="item-link item-content">
-                            <div class="item-inner item-cell">
-                                <div class="item-row">
-                                    <div class="item-cell">
-                                        <h3 class="no-margin">
-                                            <b>{{cobro.abono | currency:"$":0}}</b>
-                                        </h3>
-                                    </div>
-                                    <div class="item-cell text-align-right">
-                                        {{cobro.dateFormAbono}}
+        <div class="tabs">
+            <div class="tab {{tabSelected.classContent}}" ng-show="tabSelected.id == 1">
+                <div class="block">
+                    <div class="list no-margin-top">
+                        <ul>
+                            <li class="swipeout" ng-repeat="cobro in cobros.data track by $index">
+                                <div class="item-content swipeout-content">
+                                    <div class="item-inner item-cell">
+                                        <div class="item-row">
+                                            <div class="item-cell">
+                                                <h3 class="no-margin">
+                                                    <b>{{cobro.data.abono | currency:"$":0}}</b>
+                                                </h3>
+                                            </div>
+                                            <div class="item-cell text-align-right">
+                                                {{cobro.data.dateFormAbono}}
+                                            </div>
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell">
+                                                <b class="margin-right">Fecha:</b>
+                                                {{cobro.data.dateAbono}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="item-row">
-                                    <div class="item-cell">
-                                        <b class="margin-right">Fecha:</b>
-                                        {{cobro.dateAbono}}
+                                <div class="swipeout-actions-left">
+                                    <a class="color-red alert-reply" ng-click="DeleteCobro(cobro)"
+                                        ng-if="userStatus == 'a'">Remover</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab {{tabSelected.classContent}}" ng-show="tabSelected.id == 2">
+                <div class="block block-strong no-padding">
+                    <div id="demo-calendar-inline-container"></div>
+                </div>
+                <div class="block">
+                    <div class="list no-margin-top">
+                        <ul>
+                            <li class="swipeout" ng-repeat="cobro in eventSelected track by $index">
+                                <div class="item-content swipeout-content">
+                                    <div class="item-inner item-cell">
+                                        <div class="item-row">
+                                            <div class="item-cell">
+                                                <h3 class="no-margin">
+                                                    <b>{{cobro.data.abono | currency:"$":0}}</b>
+                                                </h3>
+                                            </div>
+                                            <div class="item-cell text-align-right">
+                                                {{cobro.data.dateFormAbono}}
+                                            </div>
+                                        </div>
+                                        <div class="item-row">
+                                            <div class="item-cell">
+                                                <b class="margin-right">Fecha:</b>
+                                                {{cobro.data.dateAbono}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                                <div class="swipeout-actions-left">
+                                    <a class="color-red alert-reply" ng-click="DeleteCobro(cobro)"
+                                        ng-if="userStatus == 'a'">Remover</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

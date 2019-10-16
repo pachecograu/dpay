@@ -52,9 +52,9 @@
         <div class="block">
             <div class="list no-margin-top">
                 <ul>
-                    <li ng-repeat="prestamo in prestamos.data track by $index">
+                    <li class="swipeout" ng-repeat="prestamo in prestamos.data track by $index">
                         <a ui-sref="cbr-in-prtm({idUser: prestamo.data.id_usuario, idPrtm: prestamo.id})"
-                            class="item-link item-content">
+                            class="item-link item-content swipeout-content">
                             <div class="item-inner item-cell">
                                 <div class="item-row">
                                     <div class="item-cell">
@@ -93,6 +93,10 @@
                                 </div>
                             </div>
                         </a>
+                        <div class="swipeout-actions-left">
+                            <a class="color-red alert-reply" ng-click="DeletePrestamo(prestamo)"
+                                ng-if="userStatus == 'a'">Remover</a>
+                        </div>
                     </li>
                 </ul>
             </div>
