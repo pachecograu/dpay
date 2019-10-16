@@ -1,0 +1,97 @@
+<!-- Top Navbar -->
+<div class="navbar" >
+    <div class="navbar-inner">
+        <div class="left padding-horizontal">
+
+        </div>
+        <div class="title sliding text-align-center" style="width: 100%;">Egresos</div>
+        <div class="right">
+            <a class="link icon-only panel-open" data-panel="right">
+                <i class="icon f7-icons ios-only">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="page" data-name="home">
+    <div class="page-content back-pages hide-navbar-on-scroll">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-60">
+                        <div class="list no-hairlines-md" style="margin: 0px;">
+                            <ul>
+                                <li class="item-content item-input item-input-outline">
+                                    <div class="item-inner">
+                                        <div class="item-input-wrap input-dropdown-wrap">
+                                            <select placeholder="Estado" ng-model="activoEgresos"
+                                                ng-change="changeStatus(activoEgresos)">
+                                                <option value="a">Activo</option>
+                                                <option value="i">Inactivo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> 
+                    <div class="col-20 padding-vertical">
+                        <button class="button button-link" ng-click="openNewEgreso()">
+                            <i class="icon material-icons" style="font-size: 36px;">add_circle_outline</i>
+                        </button>
+                    </div>
+                    <div class="col-20 padding-vertical">
+                        <button class="button button-link" ng-click="updateListEgresos()">
+                            <i class="icon material-icons" style="font-size: 36px;">loop</i>
+                        </button>
+                    </div>
+                    <div class="col-50 padding">
+                        {{egresos.data.length}} Registros
+                    </div>
+                    <div class="col-50 padding text-align-right">
+                        Total: <b>{{egresos.total | currency:"$":0}}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="list">
+                <ul>
+                    <li class="swipeout" ng-repeat="egreso in egresos.data">
+                        <div class="item-content swipeout-content">
+                            <div class="item-inner item-cell">
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <h3 class="no-margin">
+                                            <b>{{egreso.data.valor | currency:"$":0}}</b>
+                                        </h3>
+                                    </div>
+                                    <div class="item-cell text-align-right">
+                                        {{egreso.data.dateFormEgreso}}
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <b class="margin-right">Fecha:</b>
+                                        {{egreso.data.dateEgreso}}
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-cell">
+                                        <b class="margin-right">Descripcion:</b>
+                                        {{egreso.data.descripcion}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swipeout-actions-left">
+                            <a class="color-red alert-reply" ng-click="DeleteCobro(cobro)"
+                                ng-if="userStatus == 'a'">Remover</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

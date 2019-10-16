@@ -1,0 +1,74 @@
+MyApp.angular.controller('egresosCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+  console.log('en el egresosCtrl');
+  MyApp.fw7.panel.close();
+
+  $scope.activoEgresos = 'a';
+
+  $scope.egresos = {
+    total: 0,
+    data: []
+  };
+  $scope.getEgresos = function (status) {
+    try {
+      $scope.safeApply(function () {
+        $scope.egresos = {
+          total: 0,
+          data: []
+        };
+      });
+      var activo = true;
+      if (status == 'a') {
+        activo = true;
+      } else if (status == 'i') {
+        activo = false;
+      }
+      MyApp.fw7.dialog.preloader('Cargando...');
+      $scope.db.collection("egresos")
+        .where("activo", "==", activo)
+        .get(getOptions)
+        .then(function (querySnapshot) {
+          $scope.egresos = {
+            total: 0,
+            data: []
+          };
+          MyApp.fw7.dialog.close();
+          querySnapshot.forEach(function (doc) {
+            console.log(doc.id, doc.data());
+            var egreso = {
+              id: doc.id,
+              data: doc.data()
+            };
+            egreso.data.dateEgreso = moment(egreso.data.fecha).format('MMMM D YYYY, h:mm:ss a');
+            egreso.data.dateFormEgreso = moment(egreso.data.fecha).startOf('second').fromNow();
+            $scope.safeApply(function () {
+              $scope.egresos.total += doc.data().valor;
+              $scope.egresos.data.push(egreso);
+            });
+            $scope.egresos.data.sort(function (a, b) {
+              return new Date(b.fecha) - new Date(a.fecha);
+            });
+          });
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  $scope.changeStatus = function (status) {
+    $scope.safeApply(function () {
+      $scope.activoEgresos = status;
+    });
+    $scope.getEgresos(status);
+  };
+
+  $scope.changeStatus($scope.activoEgresos);
+
+  $scope.updateListEgresos = function () {
+    $scope.getEgresos($scope.activoEgresos);
+  };
+
+  $scope.openNewEgreso = function () {
+    newEgreso.open();
+  };
+
+}]);
