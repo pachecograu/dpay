@@ -23,7 +23,7 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider, $httpProvider)
 
   //
   // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise("/login");
+  $urlRouterProvider.otherwise("/dashboard");
   //
   // Now set up the states
   $stateProvider
@@ -37,6 +37,12 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider, $httpProvider)
       templateUrl: "pages/dashboard.html",
       controller: "dashboardCtrl"
     })
+    .state('mi-cuenta', {
+      url: "/mi-cuenta",
+      templateUrl: "pages/mi-cuenta.html",
+      controller: "micuentaCtrl"
+    })
+    //Administrador
     .state('users', {
       url: "/users",
       templateUrl: "pages/users.html",
@@ -66,5 +72,21 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider, $httpProvider)
       url: "/egresos",
       templateUrl: "pages/egresos.html",
       controller: "egresosCtrl"
+    })
+    .state('ingresos', {
+      url: "/ingresos",
+      templateUrl: "pages/ingresos.html",
+      controller: "ingresosCtrl"
+    })
+    //cliente
+    .state('mis-prestamos', {
+      url: "/mis-prestamos",
+      templateUrl: "pages/mis-prestamos.html",
+      controller: "misprestamosCtrl"
+    })
+    .state('cbr-by-prtm-client', {
+      url: "/cbr-by-prtm-client/:idPrtm",
+      templateUrl: "pages/cbr-by-prtm-client.html",
+      controller: "cbrbyPrtmClientCtrl"
     })
 });

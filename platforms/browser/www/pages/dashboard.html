@@ -1,0 +1,230 @@
+<!-- Top Navbar -->
+<div class="navbar" >
+    <div class="navbar-inner">
+        <div class="left padding-horizontal">
+              
+        </div>
+        <div class="title sliding text-align-center" style="width: 100%;">Inicio</div>
+        <div class="right">
+            <a class="link icon-only panel-open" data-panel="right">
+                <i class="icon f7-icons ios-only">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Toolbar-->
+<!-- <div class="toolbar toolbar-bottom">
+          <div class="toolbar-inner">
+            <a class="link">Left Link</a>
+            <a class="link">Right Link</a>
+          </div>
+        </div> -->
+<div class="page" data-name="home">
+    <div class="page-content back-pages hide-navbar-on-scroll">
+        <div class="card">
+            <div class="card-content">
+               <div class="row">
+                   <div class="col-25"></div>
+                    <div class="col-50 text-align-center padding-horizontal padding-top">
+                        <i class="icon material-icons" style="font-size: 104px;">account_circle</i>
+                    </div>
+                    <div class="col-25 text-align-right padding">
+                        <button class="col button button-link" ng-click="updateDashboard()">
+                            <i class="icon material-icons" style="font-size: 30px;">loop</i>
+                        </button>
+                    </div>
+                    <div class="col-100 text-align-center padding">
+                        {{userLoged.email}}
+                    </div>
+               </div>
+            </div>
+        </div>
+        <!-- <div class="block-title">
+            <div class="row">
+                <div class="col-100 text-align-right">
+                    <button class="col button button-link" ng-click="updateDashboard()">
+                        <i class="icon material-icons" style="font-size: 36px;">loop</i>
+                    </button>
+                </div>
+            </div>
+        </div> -->
+        <div class="block">
+            <div class="row" ng-if="rollSelected == 'Administrador'">
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only" style="font-size: 70px;">face</i>
+                        </div>
+                        <div class="col-100">
+                            Clientes
+                        </div>
+                        <div class="col-100">
+                            {{users.length}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only" style="font-size: 70px;">account_balance_wallet</i>
+                        </div>
+                        <div class="col-100">
+                            Cartera
+                        </div>
+                        <div class="col-100">
+                            {{prestamos.totalCartera - cobros.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_upward</i>
+                        </div>
+                        <div class="col-100">
+                            Prestamos netos
+                        </div>
+                        <div class="col-100">
+                            #{{prestamos.data.length}} {{prestamos.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_upward</i>
+                        </div>
+                        <div class="col-100">
+                            Prestamos + Int.
+                        </div>
+                        <div class="col-100">
+                            {{prestamos.totalCartera | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_downward</i>
+                        </div>
+                        <div class="col-100">
+                            Cobros
+                        </div>
+                        <div class="col-100">
+                            #{{cobros.data.length}} {{cobros.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -30px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 50px;">subdirectory_arrow_right</i>
+                        </div>
+                        <div class="col-100">
+                            Egresos
+                        </div>
+                        <div class="col-100">
+                            #{{egresos.data.length}} -{{egresos.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-100 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only" style="font-size: 70px;">dns</i>
+                        </div>
+                        <div class="col-100">
+                            Caja
+                        </div>
+                        <div class="col-100">
+                            {{cobros.total - egresos.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="rollSelected == 'Cliente'">
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only" style="font-size: 70px;">face</i>
+                        </div>
+                        <div class="col-100">
+                            Prestamista
+                        </div>
+                        <div class="col-100">
+                            <b>{{dpayAccountSelected}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_upward</i>
+                        </div>
+                        <div class="col-100">
+                            Prestamos netos
+                        </div>
+                        <div class="col-100">
+                            #{{prestamos.data.length}} {{prestamos.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_upward</i>
+                        </div>
+                        <div class="col-100">
+                            Prestamos + Int.
+                        </div>
+                        <div class="col-100">
+                            #{{prestamos.data.length}} {{prestamos.totalCartera | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_downward</i>
+                        </div>
+                        <div class="col-100">
+                            Pagos
+                        </div>
+                        <div class="col-100">
+                            #{{cobros.data.length}} {{cobros.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-100 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only" style="font-size: 70px;">dns</i>
+                        </div>
+                        <div class="col-100">
+                            Deuda Total
+                        </div>
+                        <div class="col-100">
+                            {{prestamos.totalCartera - cobros.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

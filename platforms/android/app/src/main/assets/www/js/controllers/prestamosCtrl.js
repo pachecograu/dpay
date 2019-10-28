@@ -1,4 +1,4 @@
-MyApp.angular.controller('prestamosCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+MyApp.angular.controller('prestamosCtrl', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
   console.log('en el prestamosCtrl');
   MyApp.fw7.panel.close();
 
@@ -23,9 +23,10 @@ MyApp.angular.controller('prestamosCtrl', ['$scope', '$rootScope', function ($sc
         activo = false;
       }
       MyApp.fw7.dialog.preloader('Cargando...');
-      $scope.db.collection("prestamos").where("activo", "==", activo)
-        .get(getOptions)
-        .then(function (querySnapshot) {
+      $scope.db.collection("prestamos")
+        .where("id_account", "==", $rootScope.accountSelected)
+        .where("activo", "==", activo)
+        .onSnapshot(function (querySnapshot) {
           $scope.prestamos = {
             total: 0,
             data: []

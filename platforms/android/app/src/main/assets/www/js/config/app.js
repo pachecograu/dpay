@@ -2,8 +2,7 @@
 var MyApp = {};
 var $$ = Dom7;
 
-MyApp.config = {
-};
+MyApp.config = {};
 
 MyApp.angular = angular.module('Dpay', ['ui.router']);
 
@@ -20,6 +19,9 @@ MyApp.fw7 = new Framework7({
 // Init/Create main view
 var mainView = MyApp.fw7.views.create('.view-main', {});
 
+var newEmail = MyApp.fw7.popup.create({
+  el: '#create-Email'
+});
 var newUser = MyApp.fw7.popup.create({
   el: '#create-user'
 });
@@ -35,6 +37,9 @@ var newCobro = MyApp.fw7.popup.create({
 var newEgreso = MyApp.fw7.popup.create({
   el: '#create-egreso'
 });
+var newIngreso = MyApp.fw7.popup.create({
+  el: '#create-ingreso'
+});
 
 function notify(params) {
   var toast = MyApp.fw7.toast.create({
@@ -44,46 +49,57 @@ function notify(params) {
   toast.open();
 }
 
-var firestoreDpay;
+var fireAuth, firestoreDpay, firebaseDpay;
 var getOptions = {
   source: 'cache'
 };
 
-  if (cordova.platformId === "browser") {
+console.log(cordova.platformId);
 
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyCjAHKrbSJcWcOvTNYuabPilKauSr1J1h8",
-      authDomain: "d-pay-c6ed3.firebaseapp.com",
-      databaseURL: "https://d-pay-c6ed3.firebaseio.com",
-      projectId: "d-pay-c6ed3",
-      storageBucket: "d-pay-c6ed3.appspot.com",
-      messagingSenderId: "1091066079150",
-      appId: "1:1091066079150:web:5c5c1bc4505b2f75"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+if (cordova.platformId === "browser") {
 
-    firestoreDpay = firebase.firestore();
-  }else{
-    var options = {
-      "datePrefix": '__DATE:',
-      "fieldValueDelete": "__DELETE",
-      "fieldValueServerTimestamp": "__SERVERTIMESTAMP",
-      "persist": true,
-      //"config": {}
-    };
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCjAHKrbSJcWcOvTNYuabPilKauSr1J1h8",
+    authDomain: "d-pay-c6ed3.firebaseapp.com",
+    databaseURL: "https://d-pay-c6ed3.firebaseio.com",
+    projectId: "d-pay-c6ed3",
+    storageBucket: "d-pay-c6ed3.appspot.com",
+    messagingSenderId: "1091066079150",
+    appId: "1:1091066079150:web:5c5c1bc4505b2f75"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
 
-    Firestore.initialise(options).then(function (db) {
-      // db.get().collection("forma_pago").get().then(function (querySnapshot) {
-      //   querySnapshot.forEach(function (doc) {
-      //     alert(doc.id + ' ' + JSON.stringify(doc.data()));
-      //   });
-      // });
-      firestoreDpay = db.get();
-    });
-  }
+  fireAuth = firebase.auth();
 
-  
+  firestoreDpay = firebase.firestore();
 
-console.log(cordova, window);
+  firebaseDpay = firebase.firestore;
+
+} else {
+  var options = {
+    "datePrefix": '__DATE:',
+    "fieldValueDelete": "__DELETE",
+    "fieldValueServerTimestamp": "__SERVERTIMESTAMP",
+    "persist": true,
+    //"config": {}
+  };
+
+  Firestore.initialise(options).then(function (db) {
+    // db.get().collection("forma_pago").get().then(function (querySnapshot) {
+    //   querySnapshot.forEach(function (doc) {
+    //     alert(doc.id + ' ' + JSON.stringify(doc.data()));
+    //   });
+    // });
+    firestoreDpay = db.get();
+  });
+
+  fireAuth = cordova.plugins.firebase.auth;
+
+  firebaseDpay = Firestore;
+}
+
+
+
+// console.log(cordova, window);

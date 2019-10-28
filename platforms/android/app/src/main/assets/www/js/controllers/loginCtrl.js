@@ -1,12 +1,16 @@
 MyApp.angular.controller('loginCtrl', ['$scope', '$state', function ($scope, $state) {
   console.log('en el login');
+  if (fireAuth.currentUser) {
+    $state.go("dashboard");
+    return;
+  }
 
   $scope.onSignIn = function(user) {
     try {
       console.log(user);
-      if (cordova.plugins.firebase.auth.currentUser) {
+      if (fireAuth.currentUser) {
         // [START signout]
-        cordova.plugins.firebase.auth.signOut();
+        fireAuth.signOut();
         // [END signout]z
       } else {
         if (user.email.length < 4) {
@@ -17,9 +21,9 @@ MyApp.angular.controller('loginCtrl', ['$scope', '$state', function ($scope, $st
           alert('Please enter a password.');
           return;
         }
-        cordova.plugins.firebase.auth.signInWithEmailAndPassword(user.email, user.password)
+        fireAuth.signInWithEmailAndPassword(user.email, user.password)
           .then(function (res) {
-            console.log('login', res);
+            // alert('login' + res);
             //$scope.initApp();
             $state.go("dashboard");
           })

@@ -83,11 +83,22 @@
                                         {{egreso.data.descripcion}}
                                     </div>
                                 </div>
+                                <div class="item-row" ng-if="egreso.data.deleted">
+                                    <div class="item-cell">
+                                        <b class="margin-right">Eliminado:</b>
+                                        {{egreso.data.deletedEgreso}}
+                                    </div>
+                                </div>
+                                <div class="item-row" ng-if="egreso.data.deleted">
+                                    <div class="item-cell">
+                                        {{egreso.data.deletedFormEgreso}}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="swipeout-actions-left">
-                            <a class="color-red alert-reply" ng-click="DeleteCobro(cobro)"
-                                ng-if="userStatus == 'a'">Remover</a>
+                            <a class="color-red alert-reply" ng-click="DeleteEgreso(egreso)"
+                                ng-if="activoEgresos == 'a'">Remover</a>
                         </div>
                     </li>
                 </ul>

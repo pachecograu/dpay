@@ -1,0 +1,107 @@
+<!-- Top Navbar -->
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="left padding-horizontal">
+
+        </div>
+        <div class="title sliding text-align-center" style="width: 100%;">Mi Cuenta</div>
+        <div class="right">
+            <a class="link icon-only panel-open" data-panel="right">
+                <i class="icon f7-icons ios-only">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Toolbar-->
+<!-- <div class="toolbar toolbar-bottom">
+          <div class="toolbar-inner">
+            <a class="link">Left Link</a>
+            <a class="link">Right Link</a>
+          </div>
+        </div> -->
+<div class="page" data-name="home">
+    <div class="page-content back-pages hide-navbar-on-scroll">
+        <div class="block-title">Diligencia cada campo</div>
+        <div class="list no-hairlines-md">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon material-icons">account_circle</i></div>
+                        <div class="item-inner">
+                            <div class="item-title">{{userLoged.email}}</div>
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Nombres</div>
+                        <div class="item-input-wrap">
+                            <input type="text" ng-model="myAccount.nombre" placeholder="Nombres completos">
+                            <span class="input-clear-button"></span>
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Identificación</div>
+                        <div class="item-input-wrap">
+                            <input type="text" ng-model="myAccount.identificacion"
+                                placeholder="Numero de documento de identidad">
+                            <span class="input-clear-button"></span>
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Dirección</div>
+                        <div class="item-input-wrap">
+                            <input type="text" ng-model="myAccount.direccion" placeholder="Dirección de residencia">
+                            <span class="input-clear-button"></span>
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Telefono / Celular</div>
+                        <div class="item-input-wrap" ng-repeat="tel in myAccount.telefono track by $index">
+                            <input type="text" ng-model="myAccount.telefono[$index]"
+                                placeholder="Numero de Telefono/Celular">
+                            <span class="input-clear-button"></span>
+                        </div>
+                    </div>
+                    <div class="item-media" ng-click="addTelAndTp('tel')" style="align-self: initial;">
+                        <i class="icon material-icons" style="font-size: 36px;">add_circle</i>
+                    </div>
+                </li>
+                <li class="item-content item-input item-input-outline">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Tipo de pagos</div>
+                        <div class="item-input-wrap input-dropdown-wrap"
+                            ng-repeat="tpago in myAccount.id_f_pago track by $index">
+                            <select ng-model="myAccount.id_f_pago[$index].id"
+                                ng-change="changeFp(myAccount.id_f_pago[$index])" placeholder="Selecciona">
+                                <option value="null">Seleccione</option>
+                                <option value="{{fp.id}}" ng-repeat="fp in fpagos track by $index">
+                                    {{fp.descripcion}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item-media" ng-click="addTelAndTp('fpago')" style="align-self: initial;">
+                        <i class="icon material-icons" style="font-size: 36px;">add_circle</i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="block">
+            <div class="row">
+                <div class="col">
+                    <button class="col button button-fill button-round text-color-black"
+                        ng-click="saveMyAccount(myAccount)">
+                        Guardar mi información
+                        </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

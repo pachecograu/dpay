@@ -98,8 +98,8 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
-apply from: "../cordova-plugin-firebasex/dpay-build.gradle"
 apply from: "../cordova-support-google-services/dpay-build.gradle"
+apply from: "../cordova-plugin-firebasex/dpay-build.gradle"
 apply from: "../cordova-plugin-firestore/dpay-firestore.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
@@ -200,7 +200,7 @@ android {
         if(cdvTargetSdkVersion != null) {
             targetSdkVersion cdvTargetSdkVersion
         }
-
+        
         multiDexEnabled true
     }
 
@@ -298,6 +298,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
+    implementation "com.google.firebase:firebase-auth:18.0.+"
     implementation "com.google.android.gms:play-services-tagmanager:17.0.0"
     implementation "com.google.firebase:firebase-core:17.0.0"
     implementation "com.google.firebase:firebase-messaging:19.0.0"
@@ -307,7 +308,6 @@ dependencies {
     implementation "com.crashlytics.sdk.android:crashlytics:2.10.1"
     implementation "com.crashlytics.sdk.android:crashlytics-ndk:2.1.0"
     implementation "me.leolin:ShortcutBadger:1.1.22"
-    implementation "com.google.firebase:firebase-auth:18.0.+"
     implementation "com.google.firebase:firebase-core:16.0.8"
     implementation "com.google.firebase:firebase-firestore:18.2.0"
     implementation "com.google.code.gson:gson:2.8.2"

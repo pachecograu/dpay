@@ -1,4 +1,4 @@
-MyApp.angular.controller('cbrInPrtmCtrl', ['$scope', '$rootScope', '$stateParams', '$filter', function ($scope, $rootScope, $stateParams, $filter) {
+MyApp.angular.controller('cbrInPrtmCtrl', ['$scope', '$rootScope', '$stateParams', '$filter', '$state', function ($scope, $rootScope, $stateParams, $filter, $state) {
   console.log('en el cbrInPrtmCtrl', $stateParams);
   MyApp.fw7.panel.close();
 
@@ -18,6 +18,7 @@ MyApp.angular.controller('cbrInPrtmCtrl', ['$scope', '$rootScope', '$stateParams
       });
       MyApp.fw7.dialog.preloader('Cargando...');
       $scope.db.collection("cobros")
+        // .where("id_account", "==", $rootScope.accountSelected)
         .where("id_prestamo", "==", prtm)
         .where("activo", "==", true)
         // .orderBy("fecha", "desc")
@@ -45,6 +46,7 @@ MyApp.angular.controller('cbrInPrtmCtrl', ['$scope', '$rootScope', '$stateParams
               });
             });
           });
+          // markerDates();
         });
     } catch (error) {
       alert(error);
@@ -129,16 +131,20 @@ MyApp.angular.controller('cbrInPrtmCtrl', ['$scope', '$rootScope', '$stateParams
     });
 
     if (tab.id == 2) {
-      for (var j = 0; j < $scope.cobros.data.length; j++) {
-        var date = new Date($scope.cobros.data[j].data.fecha);
-        calendarInline.params.events.push({
-          date: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
-          color: '#4cd964',
-        });
-      }
-      calendarInline.update();
+      markerDates();
     }
   };
+
+  function markerDates() {
+    for (var j = 0; j < $scope.cobros.data.length; j++) {
+      var date = new Date($scope.cobros.data[j].data.fecha);
+      calendarInline.params.events.push({
+        date: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+        color: '#4cd964',
+      });
+    }
+    calendarInline.update();
+  }
 
   try {
     // var now = new Date();

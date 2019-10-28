@@ -50,7 +50,7 @@
             </div>
         </div> -->
         <div class="block">
-            <div class="row">
+            <div class="row" ng-if="rollSelected == 'Administrador'">
                 <div class="col-50 padding">
                     <div class="row" style="text-align: center;">
                         <div class="col-100">
@@ -125,6 +125,34 @@
                 <div class="col-50 padding">
                     <div class="row" style="text-align: center;">
                         <div class="col-100">
+                            <i class="icon material-icons md-only" style="font-size: 70px;">dns</i>
+                        </div>
+                        <div class="col-100">
+                            Caja
+                        </div>
+                        <div class="col-100">
+                            {{(cobros.total + ingresos.total) - egresos.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -30px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 50px;">subdirectory_arrow_left</i>
+                        </div>
+                        <div class="col-100">
+                            Ingresos
+                        </div>
+                        <div class="col-100">
+                            #{{ingresos.data.length}} {{ingresos.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
                             <i class="icon material-icons md-only"
                                 style="font-size: 70px;margin-right: -30px;">attach_money</i>
                             <i class="icon material-icons md-only" style="font-size: 50px;">subdirectory_arrow_right</i>
@@ -137,20 +165,80 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="row" ng-if="rollSelected == 'Cliente'">
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only" style="font-size: 70px;">face</i>
+                        </div>
+                        <div class="col-100">
+                            Prestamista
+                        </div>
+                        <div class="col-100">
+                            <b>{{dpayAccountSelected}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_upward</i>
+                        </div>
+                        <div class="col-100">
+                            Prestamos netos
+                        </div>
+                        <div class="col-100">
+                            #{{prestamos.data.length}} {{prestamos.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_upward</i>
+                        </div>
+                        <div class="col-100">
+                            Prestamos + Int.
+                        </div>
+                        <div class="col-100">
+                            #{{prestamos.data.length}} {{prestamos.totalCartera | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50 padding">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-100">
+                            <i class="icon material-icons md-only"
+                                style="font-size: 70px;margin-right: -40px;">attach_money</i>
+                            <i class="icon material-icons md-only" style="font-size: 70px;">arrow_downward</i>
+                        </div>
+                        <div class="col-100">
+                            Pagos
+                        </div>
+                        <div class="col-100">
+                            #{{cobros.data.length}} {{cobros.total | currency:"$":0}}
+                        </div>
+                    </div>
+                </div>
                 <div class="col-100 padding">
                     <div class="row" style="text-align: center;">
                         <div class="col-100">
                             <i class="icon material-icons md-only" style="font-size: 70px;">dns</i>
                         </div>
                         <div class="col-100">
-                            Caja
+                            Deuda Total
                         </div>
                         <div class="col-100">
-                            {{cobros.total - egresos.total | currency:"$":0}}
+                            {{prestamos.totalCartera - cobros.total | currency:"$":0}}
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>

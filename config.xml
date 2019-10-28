@@ -12,7 +12,6 @@
     <platform name="android">
         <resource-file src="google-services.json" target="app/google-services.json" />
     </platform>
-    <engine name="android" spec="^8.1.0" />
     <plugin name="cordova-plugin-firebasex" spec="^6.1.0">
         <variable name="FIREBASE_ANALYTICS_COLLECTION_ENABLED" value="true" />
         <variable name="FIREBASE_PERFORMANCE_COLLECTION_ENABLED" value="true" />

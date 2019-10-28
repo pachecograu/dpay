@@ -1,19 +1,19 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "cordova-plugin-firebasex.FirebasePlugin",
-      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
-      "pluginId": "cordova-plugin-firebasex",
-      "clobbers": [
-        "FirebasePlugin"
-      ]
-    },
-    {
       "id": "cordova-plugin-firebase-authentication.FirebaseAuthentication",
       "file": "plugins/cordova-plugin-firebase-authentication/www/FirebaseAuthentication.js",
       "pluginId": "cordova-plugin-firebase-authentication",
       "merges": [
         "cordova.plugins.firebase.auth"
+      ]
+    },
+    {
+      "id": "cordova-plugin-firebasex.FirebasePlugin",
+      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
+      "pluginId": "cordova-plugin-firebasex",
+      "clobbers": [
+        "FirebasePlugin"
       ]
     },
     {
@@ -88,10 +88,10 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports.metadata = {
     "cordova-plugin-androidx": "1.0.2",
     "cordova-plugin-androidx-adapter": "1.1.0",
-    "cordova-plugin-firebasex": "6.1.0",
     "cordova-support-android-plugin": "1.0.1",
     "cordova-support-google-services": "1.3.1",
     "cordova-plugin-firebase-authentication": "3.0.0",
+    "cordova-plugin-firebasex": "6.1.0",
     "cordova-plugin-firestore": "3.0.0"
   };
 });

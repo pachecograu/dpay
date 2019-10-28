@@ -7,33 +7,61 @@
       <b>D'Pay</b>
     </div>
     <form>
-      <div class="list">
-        <ul>
-          <li class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label" style="font-size: 17px;">Correo electronico</div>
-              <div class="item-input-wrap">
-                <input type="text" name="username" ng-model="user.email" placeholder="Tu E-mail">
+      <div class="block">
+        <div class="list padding-horizontal color-theme-black">
+          <ul style="background: white;border-radius: 30px;">
+            <li class="item-content item-input" style="padding-left: 6px;">
+              <div class="item-media align-self-flex-start no-padding-bottom" style="padding-top: 5px;">
+                <i class="icon material-icons" style="font-size: 40px;">account_circle</i>
               </div>
-            </div>
-          </li>
-          <li class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label" style="font-size: 17px;">Contraseña</div>
-              <div class="item-input-wrap">
-                <input type="password" name="password" ng-model="user.password" placeholder="Tu Contraseña">
+              <div class="item-inner no-padding-bottom padding-left " style="border-left: 1px solid black;">
+                <!-- <div class="item-title item-label" style="font-size: 17px;">Correo electronico</div> -->
+                <div class="item-input-wrap">
+                  <input id="email-login" class="text-color-black" style="height: 40px;" type="text" name="username"
+                    ng-model="user.email"
+                    placeholder="Tu E-mail">
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="list padding-horizontal color-theme-black">
+          <ul style="background: white;border-radius: 30px;">
+            <li class="item-content item-input" style="padding-left: 6px;">
+              <div class="item-media align-self-flex-start no-padding-bottom" style="padding-top: 5px;">
+                <i class="icon material-icons" style="font-size: 40px;">lock</i>
+              </div>
+              <div class="item-inner no-padding-bottom padding-left "
+                style="border-left: 1px solid black;">
+                <!-- <div class="item-title item-label" style="font-size: 17px;">Contraseña</div> -->
+                <div class="item-input-wrap">
+                  <input id="password-login" class="text-color-black" style="height: 40px;" type="password"
+                    name="password"
+                    ng-model="user.password" placeholder="Tu Contraseña">
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="row">
+      <div class="row padding-top">
         <div class="col-25"></div>
         <div class="col-50">
-          <button class="button button-raised button-fill button-round text-color-red"
+          <button class="button button-raised button-fill back-pages button-round"
               ng-click="onSignIn(user)">Inciar</button>
           </div>
           <div class="col-25"></div>
+      </div>
+      <div class="row padding-top">
+        <div class="col-100 text-align-center">
+          <p>¿Aún no estas registrado?</p>
+        </div>
+        <div class="col-30"></div>
+        <div class="col-40">
+          <button class="button color-white button-round"
+            ng-click="openNewEmail()">Registrate</button>
+        </div>
+        <div class="col-30"></div>
       </div>
     </form>
   </div>

@@ -1,4 +1,4 @@
-MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParams', '$filter', function ($scope, $rootScope, $stateParams, $filter) {
+MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParams', '$filter', '$state', function ($scope, $rootScope, $stateParams, $filter, $state) {
   console.log('en el ptrmOnPrflCtrl', $stateParams);
   MyApp.fw7.panel.close();
 
@@ -18,11 +18,11 @@ MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParam
       });
       MyApp.fw7.dialog.preloader('Cargando...');
       $scope.db.collection("prestamos")
+        .where("id_account", "==", $rootScope.accountSelected)
         .where("id_usuario", "==", user)
         .where("activo", "==", true)
         // .orderBy("fecha", "desc")
-        .get(getOptions)
-        .then(function (querySnapshot) {
+        .onSnapshot(function (querySnapshot) {
           $scope.prestamos = {
             total: 0,
             data: []

@@ -1,4 +1,4 @@
-MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
   console.log('en el cobrosCtrl');
   MyApp.fw7.panel.close();
 
@@ -23,7 +23,9 @@ MyApp.angular.controller('cobrosCtrl', ['$scope', '$rootScope', function ($scope
         activo = false;
       }
       MyApp.fw7.dialog.preloader('Cargando...');
-      $scope.db.collection("cobros").where("activo", "==", activo)
+      $scope.db.collection("cobros")
+        .where("id_account", "==", $rootScope.accountSelected)
+        .where("activo", "==", activo)
         .get(getOptions)
         .then(function (querySnapshot) {
           $scope.cobros = {

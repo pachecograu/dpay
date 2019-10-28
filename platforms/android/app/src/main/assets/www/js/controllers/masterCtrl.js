@@ -14,6 +14,67 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
 
   $rootScope.userStatus = 'a';
 
+  $scope.newEmail = {
+    email: "",
+    password: ""
+  };
+
+  $scope.openNewEmail = function () {
+    newEmail.open();
+  };
+
+  var registering = false;
+
+  $scope.saveEmail = function (user) {
+    try {
+      if (user.email.length < 4) {
+        alert('Please enter an email address.');
+        return;
+      }
+      if (user.password.length < 4) {
+        alert('Please enter a password.');
+        return;
+      }
+      MyApp.fw7.dialog.preloader('Registrando...');
+      registering = true;
+      fireAuth.createUserWithEmailAndPassword(user.email, user.password)
+        .catch(function (error) {
+          // Handle Errors here.
+          alert(error);
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  $scope.saveAccount = function (user) {
+    try {
+      console.log(user);
+      var account = {
+        account: ['pachecograu'],
+        dpay_accounts: ['wlozano'],
+        email: user.email
+      };
+      newEmail.close();
+      // MyApp.fw7.dialog.preloader('Guardando...');
+      $scope.db.collection("cuentas").doc(user.uid).set(account)
+        .then(function () {
+          // console.log("Document written with ID: ", docRef.id);
+          // $scope.getUsers($rootScope.userStatus);
+          notify({
+            text: '¡Registrado exitosamente!'
+          });
+          MyApp.fw7.dialog.close();
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+          MyApp.fw7.dialog.close();
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   $scope.newUser = {
     telefono: [''],
     id_f_pago: [{
@@ -52,23 +113,78 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
     descripcion: ''
   };
 
+  $scope.newIngresos = {
+    valor: 0,
+    fecha: new Date(),
+    descripcion: ''
+  };
+
   $scope.signOut = function () {
     MyApp.fw7.panel.close();
-    cordova.plugins.firebase.auth.signOut();
+    fireAuth.signOut();
   };
 
   $scope.userLoged = {
-    navbar: false
+    navbar: false,
+    accounts: []
+  };
+
+  $rootScope.accountSelected = null;
+  $rootScope.dpayAccountSelected = null;
+  $scope.changeAccount = function (account) {
+    // alert(account);
+    $scope.safeApply(function () {
+      if ($rootScope.rollSelected == 'Administrador') {
+        $rootScope.accountSelected = account;
+      } else if ($rootScope.rollSelected == 'Cliente') {
+        $rootScope.dpayAccountSelected = account;
+      }
+    });
+  };
+
+  $rootScope.rollSelected = 'Administrador';
+  $scope.SelectRoll = function (roll) {
+    $scope.safeApply(function () {
+      $rootScope.rollSelected = roll;
+    });
+    $state.go('dashboard');
+  };
+
+  $scope.getAccount = function (uid) {
+    $scope.db.collection("cuentas")
+      .doc(uid)
+      .onSnapshot(function (doc) {
+        // alert(JSON.stringify(doc));
+        if (doc.exists) {
+          console.log("Document data: ", doc.data());
+          $scope.safeApply(function (params) {
+            var dataAccount = doc.data();
+            $scope.userLoged.accounts = dataAccount;
+            if (!$scope.userLoged.accounts.account || $scope.userLoged.accounts.account.length == 0) {
+              $rootScope.rollSelected = 'Cliente';
+            }else{
+              $rootScope.accountSelected = $scope.userLoged.accounts.account[0];
+            }
+            $rootScope.dpayAccountSelected = $scope.userLoged.accounts.dpay_accounts[0];
+          });
+          // alert($rootScope.accountSelected);
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      });
   };
 
   $scope.initApp = function (fn) {
     // Listening for auth state changes.
     // [START authstatelistener]
     try {
-      cordova.plugins.firebase.auth.onAuthStateChanged(function (user) {
+      fireAuth.onAuthStateChanged(function (user) {
         // alert(user);
         // [END_EXCLUDE]
+        console.log(registering);
         if (user) {
+          console.log(user);
           // User is signed in.
           $scope.userLoged.displayName = user.displayName;
           $scope.userLoged.email = user.email;
@@ -79,11 +195,16 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
           $scope.userLoged.providerData = user.providerData;
           $scope.userLoged.navbar = true;
 
+          if (registering) {
+            $scope.saveAccount($scope.userLoged);
+          }
+
+          $scope.getAccount(user.uid);
+
           // $scope.db = window.firebase.firestore();
           // if (fn) {
           //   fn();
           // }
-          $state.go("dashboard");
         } else {
           // User is signed out.
           // [START_EXCLUDE]
@@ -108,24 +229,22 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
   }
 
   try {
-    $scope.db.collection("forma_pago").get(getOptions).then(function (querySnapshot) {
-      $scope.fpagos = [];
-      querySnapshot.forEach(function (doc) {
-        console.log(doc.id, doc.data());
-        $scope.safeApply(function () {
-          $scope.fpagos.push(doc.data());
+    $scope.db.collection("forma_pago")
+      .onSnapshot(function (querySnapshot) {
+        $scope.fpagos = [];
+        querySnapshot.forEach(function (doc) {
+          console.log(doc.id, doc.data());
+          $scope.safeApply(function () {
+            $scope.fpagos.push(doc.data());
+          });
         });
       });
-    });
   } catch (error) {
     alert(error);
   }
 
   $scope.getUsers = function (status, fn) {
     try {
-      $scope.safeApply(function () {
-        $scope.users = [];
-      });
       var activo;
       if (status == 'a') {
         activo = true;
@@ -134,22 +253,30 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
       }
       MyApp.fw7.dialog.preloader('Cargando...');
       $scope.db.collection("usuarios")
-        // .orderBy("creado", "desc")
+        // .where("id_account", "array-contains", $rootScope.accountSelected)
         .where("activo", "==", activo)
-        .get(getOptions)
-        .then(function (querySnapshot) {
+        .onSnapshot(function (querySnapshot) {
+          $scope.safeApply(function () {
+            $scope.users = [];
+          });
           querySnapshot.forEach(function (doc) {
             // console.log(doc.id, doc.data());
             var user = {
               id: doc.id,
               data: doc.data()
             };
-            $scope.safeApply(function () {
-              $scope.users.push(user);
-            });
-            $scope.users.sort(function (a, b) {
-              return new Date(b.data.creado) - new Date(a.data.creado);
-            });
+            if (user.data.id_account && user.data.id_account.length > 0) {
+              for (var i = 0; i < user.data.id_account.length; i++) {
+                if (user.data.id_account[i] == $rootScope.accountSelected) {
+                  $scope.safeApply(function () {
+                    $scope.users.push(user);
+                  });
+                }
+              }
+            }
+          });
+          $scope.users.sort(function (a, b) {
+            return new Date(b.data.creado) - new Date(a.data.creado);
           });
           MyApp.fw7.dialog.close();
           if (fn) {
@@ -177,6 +304,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
   $scope.saveUser = function (user) {
     try {
       console.log(user);
+      user.id_account = $rootScope.accountSelected;
       user.creado = new Date();
       user.activo = true;
       MyApp.fw7.dialog.preloader('Guardando...');
@@ -263,6 +391,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
   $scope.savePrestamo = function (prestamo) {
     try {
       console.log(prestamo);
+      prestamo.id_account = $rootScope.accountSelected;
       prestamo.id_usuario = $rootScope.paramUserId;
       // prestamo.fecha = new Date();
       prestamo.activo = true;
@@ -289,6 +418,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
   $scope.saveCobro = function (cobro) {
     try {
       console.log(cobro);
+      cobro.id_account = $rootScope.accountSelected;
       cobro.id_usuario = $rootScope.params.idUser;
       cobro.id_prestamo = $rootScope.params.idPrtm;
       // cobro.fecha = new Date();
@@ -313,9 +443,10 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
     }
   };
 
-  $scope.saveEgreso = function (egreso) {
+  $scope.savegreso = function (egreso) {
     try {
       console.log(egreso);
+      egreso.id_account = $rootScope.accountSelected;
       // egreso.fecha = new Date();
       egreso.activo = true;
       MyApp.fw7.dialog.preloader('Guardando...');
@@ -337,14 +468,41 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
       alert(error);
     }
   };
+  
+  $scope.saveIngreso = function (ingreso) {
+    try {
+      console.log(ingreso);
+      ingreso.id_account = $rootScope.accountSelected;
+      // ingreso.fecha = new Date();
+      ingreso.activo = true;
+      MyApp.fw7.dialog.preloader('Guardando...');
+      $scope.db.collection("ingresos").add(ingreso)
+        .then(function (docRef) {
+          console.log("Document written with ID: ", docRef.id);
+          // $scope.getUsers($rootScope.userStatus);
+          newIngreso.close();
+          notify({
+            text: '¡Creado exitosamente!'
+          });
+          MyApp.fw7.dialog.close();
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+          MyApp.fw7.dialog.close();
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   $scope.viewUser = function (user, fn) {
     try {
       console.log(user);
       MyApp.fw7.preloader.show();
       $scope.db.collection("usuarios").doc(user)
-        .get(getOptions).then(function (doc) {
-          console.log(doc)
+        // .where("id_account", "==", $rootScope.accountSelected)
+        .onSnapshot(function (doc) {
+          console.log(doc);
           if (doc.exists) {
             console.log("Document data:", doc.data());
             if (fn) {
@@ -370,7 +528,8 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
       console.log(prestamo);
       MyApp.fw7.preloader.show();
       $scope.db.collection("prestamos").doc(prestamo)
-        .get(getOptions).then(function (doc) {
+        // .where("id_account", "==", $rootScope.accountSelected)
+        .onSnapshot(function (doc) {
           console.log(doc);
           if (doc.exists) {
             // alert("Document data: " + JSON.stringify(doc.data()));
@@ -400,5 +559,121 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
     }
   };
 
+  $scope.tabsUser = [{
+    id: 1,
+    text: 'FORMULARIO',
+    state: true,
+    class: 'button-active text-color-black',
+    classContent: 'tab-active animated'
+  }, {
+    id: 2,
+    text: 'IMPORTAR',
+    state: false,
+    class: '',
+    classContent: 'animated'
+  }];
+  $scope.tabSelected = $scope.tabsUser[0];
+  $scope.tabChange = function (tab) {
+    for (var i = 0; i < $scope.tabsUser.length; i++) {
+      $scope.safeApply(function () {
+        $scope.tabsUser[i].state = false;
+        $scope.tabsUser[i].class = '';
+        $scope.tabsUser[i].classContent = 'animated';
+      });
+    }
+    $scope.safeApply(function () {
+      tab.state = true;
+      tab.class = 'button-active text-color-black';
+      tab.classContent = 'tab-active animated fadeIn';
+      $scope.tabSelected = tab;
+    });
+
+    if (tab.id == 2) {
+      $scope.getClients();
+    }
+  };
+
+  $scope.getClients = function () {
+    try {
+      MyApp.fw7.dialog.preloader('Cargando...');
+      $scope.db.collection("usuarios")
+        // .where("id_account", "array-contains", $rootScope.accountSelected)
+        // .where("activo", "==", true)
+        .onSnapshot(function (querySnapshot) {
+          $scope.safeApply(function () {
+            $scope.clients = [];
+          });
+          querySnapshot.forEach(function (doc) {
+            // console.log(doc.id, doc.data());
+            var user = {
+              id: doc.id,
+              data: doc.data()
+            };
+            if (user.data.id_account && user.data.id_account.length > 0) {
+              for (var i = 0; i < user.data.id_account.length; i++) {
+                if (user.data.id_account[i] == $rootScope.accountSelected) {
+                  console.log('pertenece');
+                  user.data.pertenece = true;
+                } else {
+                  console.log('no pertenece');
+                  user.data.pertenece = false;
+                }
+              }
+            } else {
+              console.log('no pertenece');
+              user.data.pertenece = false;
+            }
+            $scope.safeApply(function () {
+              $scope.clients.push(user);
+            });
+            $scope.clients.sort(function (a, b) {
+              return new Date(b.data.creado) - new Date(a.data.creado);
+            });
+          });
+          console.log($scope.clients);
+
+          MyApp.fw7.dialog.close();
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  $scope.addingClient = function name(user) {
+    try {
+      console.log(user);
+      var accounts = [];
+      for (var i = 0; i < user.data.id_account.length; i++) {
+        accounts.push(user.data.id_account[i]);
+      }
+      accounts.push($rootScope.accountSelected);
+      // user.id_account.push($rootScope.accountSelected);
+      // MyApp.fw7.dialog.preloader('Guardando...');
+      $scope.db.collection("usuarios").doc(user.id).update({
+          id_account: accounts
+        })
+        .then(function () {
+          $scope.db.collection("cuentas").doc(user.id).update({
+              dpay_accounts: accounts
+            })
+            .then(function () {
+              notify({
+                text: '¡Importado exitosamente!'
+              });
+              // MyApp.fw7.dialog.close();
+            })
+            .catch(function (error) {
+              console.error("Error adding document: ", error);
+              MyApp.fw7.dialog.close();
+            });
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+          MyApp.fw7.dialog.close();
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
 
 }]);

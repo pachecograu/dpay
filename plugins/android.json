@@ -7,6 +7,10 @@
     "files": {}
   },
   "installed_plugins": {
+    "cordova-plugin-firebase-authentication": {
+      "FIREBASE_AUTH_VERSION": "18.0.+",
+      "PACKAGE_NAME": "com.wlozano.dpay"
+    },
     "cordova-plugin-firebasex": {
       "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
       "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
@@ -21,10 +25,6 @@
       "ANDROID_CRASHLYTICS_VERSION": "2.10.1",
       "ANDROID_CRASHLYTICS_NDK_VERSION": "2.1.0",
       "ANDROID_SHORTCUTBADGER_VERSION": "1.1.22",
-      "PACKAGE_NAME": "com.wlozano.dpay"
-    },
-    "cordova-plugin-firebase-authentication": {
-      "FIREBASE_AUTH_VERSION": "18.0.+",
       "PACKAGE_NAME": "com.wlozano.dpay"
     },
     "cordova-plugin-firestore": {

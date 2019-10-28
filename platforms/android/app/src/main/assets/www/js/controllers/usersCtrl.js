@@ -1,4 +1,4 @@
-MyApp.angular.controller('usersCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+MyApp.angular.controller('usersCtrl', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
   console.log('en el usersCtrl');
   MyApp.fw7.panel.close();
 
