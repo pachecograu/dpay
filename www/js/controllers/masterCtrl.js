@@ -99,7 +99,8 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
   $scope.newPrestamos = {
     valor: 0,
     semanas: 0,
-    fecha: new Date()
+    fecha: new Date(),
+    fijo: false
   };
 
   $scope.newCobros = {
@@ -136,8 +137,10 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
     $scope.safeApply(function () {
       if ($rootScope.rollSelected == 'Administrador') {
         $rootScope.accountSelected = account;
+        $scope.updateDashboard();
       } else if ($rootScope.rollSelected == 'Cliente') {
         $rootScope.dpayAccountSelected = account;
+        $scope.updateDashboard();
       }
     });
   };
@@ -162,12 +165,13 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
             $scope.userLoged.accounts = dataAccount;
             if (!$scope.userLoged.accounts.account || $scope.userLoged.accounts.account.length == 0) {
               $rootScope.rollSelected = 'Cliente';
-            }else{
+            } else {
               $rootScope.accountSelected = $scope.userLoged.accounts.account[0];
             }
             $rootScope.dpayAccountSelected = $scope.userLoged.accounts.dpay_accounts[0];
           });
           // alert($rootScope.accountSelected);
+          $scope.updateDashboard();
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -395,6 +399,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
       prestamo.id_usuario = $rootScope.paramUserId;
       // prestamo.fecha = new Date();
       prestamo.activo = true;
+      prestamo.data.finish = false;
       MyApp.fw7.dialog.preloader('Guardando...');
       $scope.db.collection("prestamos").add(prestamo)
         .then(function (docRef) {
@@ -409,6 +414,22 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
         .catch(function (error) {
           console.error("Error adding document: ", error);
           MyApp.fw7.dialog.close();
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  $scope.UpdatePrestamos = function (prestamo) {
+    // console.log(prestamo);
+    try {
+      prestamo.data.finish = true;
+      $scope.db.collection("prestamos").doc(prestamo.id).update(prestamo.data)
+        .then(function () {
+          console.log("Document updated with ID: ", prestamo.id);
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
         });
     } catch (error) {
       alert(error);
@@ -468,7 +489,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
       alert(error);
     }
   };
-  
+
   $scope.saveIngreso = function (ingreso) {
     try {
       console.log(ingreso);
@@ -538,7 +559,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
             prestamo.dateFrom = moment(new Date(prestamo.fecha)).startOf('second').fromNow();
             prestamo.dateTrans = moment(new Date()).diff(moment(new Date(prestamo.fecha)), 'weeks');
             prestamo.semPas = prestamo.semanas;
-            if (prestamo.dateTrans > prestamo.semanas) {
+            if (prestamo.dateTrans > prestamo.semanas && !prestamo.fijo) {
               prestamo.semPas = prestamo.dateTrans;
             }
             if (fn) {
@@ -671,6 +692,185 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
           console.error("Error adding document: ", error);
           MyApp.fw7.dialog.close();
         });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  $scope.updateDashboard = function () {
+    try {
+      $scope.users = [];
+      $scope.prestamos = {
+        total: 0,
+        totalCartera: 0,
+        data: []
+      };
+      $scope.cobros = {
+        total: 0,
+        data: []
+      };
+      $scope.egresos = {
+        total: 0,
+        data: []
+      };
+      $scope.ingresos = {
+        total: 0,
+        data: []
+      };
+      // alert($rootScope.accountSelected);
+      if ($rootScope.rollSelected == 'Administrador' && $rootScope.accountSelected) {
+        MyApp.fw7.preloader.show();
+        $scope.db.collection("usuarios")
+          // .where("id_account", "array-contains", [$rootScope.accountSelected])
+          .where("activo", "==", true)
+          .onSnapshot(function (querySnapshot) {
+            $scope.users = [];
+            MyApp.fw7.preloader.hide();
+            querySnapshot.forEach(function (doc) {
+              // console.log(doc.id, doc.data());
+              var user = {
+                id: doc.id,
+                data: doc.data()
+              };
+              if (user.data.id_account && user.data.id_account.length > 0) {
+                for (var i = 0; i < user.data.id_account.length; i++) {
+                  if (user.data.id_account[i] == $rootScope.accountSelected) {
+                    $scope.safeApply(function () {
+                      $scope.users.push(doc.data());
+                    });
+                  }
+                }
+              }
+            });
+          });
+        $scope.db.collection("prestamos")
+          .where("id_account", "==", $rootScope.accountSelected)
+          .where("activo", "==", true)
+          .onSnapshot(function (querySnapshot) {
+            $scope.prestamos = {
+              total: 0,
+              totalCartera: 0,
+              data: []
+            };
+            MyApp.fw7.preloader.hide();
+            querySnapshot.forEach(function (doc) {
+              // console.log(doc.id, doc.data());
+              $scope.safeApply(function () {
+                var prestamo = doc.data();
+                prestamo.dateTrans = moment(new Date()).diff(moment(new Date(prestamo.fecha)), 'weeks');
+                prestamo.semPas = prestamo.semanas;
+                if (prestamo.finish) {
+                  prestamo.semPas = prestamo.semanas;
+                } else if (prestamo.dateTrans > prestamo.semanas && !prestamo.fijo) {
+                  prestamo.semPas = prestamo.dateTrans;
+                }
+                console.log(prestamo);
+                
+                $scope.prestamos.total += prestamo.valor;
+                $scope.prestamos.totalCartera += prestamo.valor + (prestamo.valor * ((prestamo.semPas * 5) / 100));
+                console.log($scope.prestamos.totalCartera)
+                $scope.prestamos.data.push(prestamo);
+              });
+            });
+          });
+        $scope.db.collection("cobros")
+          .where("id_account", "==", $rootScope.accountSelected)
+          .where("activo", "==", true)
+          .onSnapshot(function (querySnapshot) {
+            $scope.cobros = {
+              total: 0,
+              data: []
+            };
+            MyApp.fw7.preloader.hide();
+            querySnapshot.forEach(function (doc) {
+              // console.log(doc.id, doc.data());
+              $scope.safeApply(function () {
+                $scope.cobros.total += doc.data().abono;
+                $scope.cobros.data.push(doc.data());
+              });
+            });
+          });
+        $scope.db.collection("egresos")
+          .where("id_account", "==", $rootScope.accountSelected)
+          .where("activo", "==", true)
+          .onSnapshot(function (querySnapshot) {
+            $scope.egresos = {
+              total: 0,
+              data: []
+            };
+            MyApp.fw7.preloader.hide();
+            querySnapshot.forEach(function (doc) {
+              // console.log(doc.id, doc.data());
+              $scope.safeApply(function () {
+                $scope.egresos.total += doc.data().valor;
+                $scope.egresos.data.push(doc.data());
+              });
+            });
+          });
+        $scope.db.collection("ingresos")
+          .where("id_account", "==", $rootScope.accountSelected)
+          .where("activo", "==", true)
+          .onSnapshot(function (querySnapshot) {
+            $scope.ingresos = {
+              total: 0,
+              data: []
+            };
+            MyApp.fw7.preloader.hide();
+            querySnapshot.forEach(function (doc) {
+              // console.log(doc.id, doc.data());
+              $scope.safeApply(function () {
+                $scope.ingresos.total += doc.data().valor;
+                $scope.ingresos.data.push(doc.data());
+              });
+            });
+          });
+      } else if ($rootScope.rollSelected == 'Cliente' && $rootScope.dpayAccountSelected) {
+        MyApp.fw7.preloader.show();
+        $scope.db.collection("prestamos")
+          .where("id_account", "==", $rootScope.dpayAccountSelected)
+          .where("id_usuario", "==", $scope.userLoged.uid)
+          .where("activo", "==", true)
+          .onSnapshot(function (querySnapshot) {
+            $scope.prestamos = {
+              total: 0,
+              totalCartera: 0,
+              data: []
+            };
+            MyApp.fw7.preloader.hide();
+            querySnapshot.forEach(function (doc) {
+              // console.log(doc.id, doc.data());
+              $scope.safeApply(function () {
+                var prestamo = doc.data();
+                prestamo.dateTrans = moment(new Date()).diff(moment(new Date(prestamo.fecha)), 'weeks');
+                prestamo.semPas = prestamo.semanas;
+                if (prestamo.dateTrans > prestamo.semanas) {
+                  prestamo.semPas = prestamo.dateTrans;
+                }
+                $scope.prestamos.total += prestamo.valor;
+                $scope.prestamos.totalCartera += prestamo.valor + (prestamo.valor * ((prestamo.semPas * 5) / 100));
+                $scope.prestamos.data.push(prestamo);
+              });
+            });
+          });
+        $scope.db.collection("cobros")
+          .where("id_account", "==", $rootScope.dpayAccountSelected)
+          .where("id_usuario", "==", $scope.userLoged.uid)
+          .where("activo", "==", true)
+          .onSnapshot(function (querySnapshot) {
+            $scope.cobros = {
+              total: 0,
+              data: []
+            };
+            MyApp.fw7.preloader.hide();
+            querySnapshot.forEach(function (doc) {
+              // console.log(doc.id, doc.data());
+              $scope.safeApply(function () {
+                $scope.cobros.total += doc.data().abono;
+                $scope.cobros.data.push(doc.data());
+              });
+            });
+          });
+      }
     } catch (error) {
       alert(error);
     }

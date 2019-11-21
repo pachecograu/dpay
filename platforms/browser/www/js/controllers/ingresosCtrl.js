@@ -24,8 +24,8 @@ MyApp.angular.controller('ingresosCtrl', ['$scope', '$rootScope', '$filter', '$s
       }
       MyApp.fw7.dialog.preloader('Cargando...');
       $scope.db.collection("ingresos")
-        // .where("id_account", "==", $rootScope.accountSelected)
-        // .where("activo", "==", activo)
+        .where("id_account", "==", $rootScope.accountSelected)
+        .where("activo", "==", activo)
         .get(getOptions)
         .then(function (querySnapshot) {
           $scope.ingresos = {

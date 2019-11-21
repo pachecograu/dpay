@@ -4,6 +4,53 @@ MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParam
 
   $rootScope.paramUserId = $stateParams.idUser;
 
+  $scope.getCobros = function (prtm) {
+    try {
+      $scope.db.collection("cobros")
+        // .where("id_account", "==", $rootScope.accountSelected)
+        .where("id_prestamo", "==", prtm.id)
+        .where("activo", "==", true)
+        // .orderBy("fecha", "desc")
+        .get(getOptions)
+        .then(function (querySnapshot) {
+          var cobros = {
+            total: 0,
+            data: []
+          };
+          querySnapshot.forEach(function (doc) {
+            // console.log(doc.id, doc.data());
+            cobros.total += doc.data().abono;
+            cobros.data.push(doc.data());
+          });
+          // console.log(new Date(prtm.data.fecha));
+          prtm.data.dateAbono = moment(new Date(prtm.data.fecha)).format('MMMM D YYYY, h:mm:ss a');
+          prtm.data.dateFormAbono = moment(new Date(prtm.data.fecha)).startOf('second').fromNow();
+          prtm.data.dateTrans = moment(new Date()).diff(moment(new Date(prtm.data.fecha)), 'weeks');
+          prtm.data.semPas = prtm.data.semanas;
+          if (!prtm.data.fijo) {
+            if (prtm.data.dateTrans > prtm.data.semanas) {
+              prtm.data.semPas = prtm.data.dateTrans;
+            }
+          }
+          if (cobros.total >= (prtm.data.valor + (prtm.data.valor * ((prtm.data.semPas * 5) / 100)))) {
+            // prtm.data.bg = 'bg-color-gray';
+            $scope.UpdatePrestamos(prtm, 'finish');
+          }
+          $scope.safeApply(function () {
+            // console.log(prtm.id, prtm.data.bg);
+            $scope.prestamos.total += prtm.data.valor;
+            $scope.prestamos.data.push(prtm);
+          });
+          console.log($scope.prestamos);
+          $scope.prestamos.data.sort(function (a, b) {
+            return new Date(b.data.fecha) - new Date(a.data.fecha);
+          });
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   $scope.prestamos = {
     total: 0,
     data: []
@@ -21,6 +68,7 @@ MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParam
         .where("id_account", "==", $rootScope.accountSelected)
         .where("id_usuario", "==", user)
         .where("activo", "==", true)
+        .where("finish", "==", false)
         // .orderBy("fecha", "desc")
         .onSnapshot(function (querySnapshot) {
           $scope.prestamos = {
@@ -34,22 +82,8 @@ MyApp.angular.controller('ptrmOnPrflCtrl', ['$scope', '$rootScope', '$stateParam
               id: doc.id,
               data: doc.data()
             };
-            // console.log(new Date(prestamo.data.fecha));
-            prestamo.data.dateAbono = moment(new Date(prestamo.data.fecha)).format('MMMM D YYYY, h:mm:ss a');
-            prestamo.data.dateFormAbono = moment(new Date(prestamo.data.fecha)).startOf('second').fromNow();
-            prestamo.data.dateTrans = moment(new Date()).diff(moment(new Date(prestamo.data.fecha)), 'weeks');
-            prestamo.data.semPas = prestamo.data.semanas;
-            if (prestamo.data.dateTrans > prestamo.data.semanas) {
-              prestamo.data.semPas = prestamo.data.dateTrans;
-            }
-            $scope.safeApply(function () {
-              $scope.prestamos.total += doc.data().valor;
-              $scope.prestamos.data.push(prestamo);
-            });
-            $scope.prestamos.data.sort(function (a, b) {
-              return new Date(b.data.fecha) - new Date(a.data.fecha);
-            });
-            // console.log($scope.prestamos);
+            $scope.getCobros(prestamo);
+            // console.log('joder', $scope.prestamos);
           });
         });
     } catch (error) {

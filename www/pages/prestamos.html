@@ -68,7 +68,7 @@
                                             <b>{{prestamo.valor | currency:"$":0}}</b>
                                         </h3>
                                     </div>
-                                    <div class="item-cell text-align-right">
+                                    <div class="item-cell text-align-right" ng-if="!prestamo.fijo">
                                         {{prestamo.dateTrans}} Sem. transcurridas
                                     </div>
                                 </div>

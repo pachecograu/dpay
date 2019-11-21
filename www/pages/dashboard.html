@@ -25,17 +25,16 @@
         <div class="card">
             <div class="card-content">
                <div class="row">
-                   <div class="col-25"></div>
-                    <div class="col-50 text-align-center padding-horizontal padding-top">
-                        <i class="icon material-icons" style="font-size: 104px;">account_circle</i>
+                    <div class="col-20 padding-horizontal padding-top">
+                        <i class="icon material-icons" style="font-size: 44px;">account_circle</i>
+                    </div>
+                    <div class="col-55 padding-vertical margin-top">
+                        {{userLoged.email}}
                     </div>
                     <div class="col-25 text-align-right padding">
                         <button class="col button button-link" ng-click="updateDashboard()">
                             <i class="icon material-icons" style="font-size: 30px;">loop</i>
                         </button>
-                    </div>
-                    <div class="col-100 text-align-center padding">
-                        {{userLoged.email}}
                     </div>
                </div>
             </div>

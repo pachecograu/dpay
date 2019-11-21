@@ -30,7 +30,7 @@
                 <div class="col-60">
                     <div class="row">
                         <div class="col-100">
-                            {{prestamos.data.length}} Prestamos
+                            {{prestamos.data.length}} Prestamos pendientes
                         </div>
                         <div class="col-100">
                             Total: <b>{{prestamos.total | currency:"$":0}}</b>
@@ -52,7 +52,7 @@
         <div class="block">
             <div class="list no-margin-top">
                 <ul>
-                    <li class="swipeout" ng-repeat="prestamo in prestamos.data track by $index">
+                    <li class="swipeout {{prestamo.data.bg}}" ng-repeat="prestamo in prestamos.data track by $index">
                         <a ui-sref="cbr-in-prtm({idUser: prestamo.data.id_usuario, idPrtm: prestamo.id})"
                             class="item-link item-content swipeout-content">
                             <div class="item-inner item-cell">
@@ -62,7 +62,7 @@
                                             <b>{{prestamo.data.valor | currency:"$":0}}</b>
                                         </h3>
                                     </div>
-                                    <div class="item-cell text-align-right">
+                                    <div class="item-cell text-align-right" ng-if="!prestamo.data.fijo">
                                         {{prestamo.data.dateTrans}} Sem. transcurridas
                                     </div>
                                 </div>

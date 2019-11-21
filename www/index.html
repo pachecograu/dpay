@@ -285,7 +285,7 @@
             <div class="col-50 text-align-right">
               <b>Tiempo:</b> {{prestamoItemCobro.semanas}} Semanas
             </div>
-            <div class="col-100">
+            <div class="col-100" ng-if="!prestamoItemCobro.fijo">
               {{prestamoItemCobro.dateTrans}} Semanas transcurridas
             </div>
           </div>
@@ -686,6 +686,23 @@
                     <div class="item-input-wrap">
                       <input type="number" ng-model="newPrestamos.semanas" placeholder="Numero de semanas">
                       <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title item-label">
+                      <div class="row">
+                        <div class="col-70">
+                          Tiempo fijo
+                        </div>
+                        <div class="col-30 text-align-right padding">
+                          <label class="toggle toggle-init color-orange">
+                            <input type="checkbox" ng-model="newPrestamos.fijo">
+                            <span class="toggle-icon"></span>
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </li>

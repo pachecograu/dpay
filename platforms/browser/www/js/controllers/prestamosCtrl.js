@@ -41,7 +41,7 @@ MyApp.angular.controller('prestamosCtrl', ['$scope', '$rootScope', '$state', fun
             prestamo.dateFormAbono = moment(prestamo.fecha).startOf('second').fromNow();
             prestamo.dateTrans = moment(new Date()).diff(moment(new Date(prestamo.fecha)), 'weeks');
             prestamo.semPas = prestamo.semanas;
-            if (prestamo.dateTrans > prestamo.semanas) {
+            if (prestamo.dateTrans > prestamo.semanas && !prestamo.fijo) {
               prestamo.semPas = prestamo.dateTrans;
             }
             $scope.safeApply(function () {
