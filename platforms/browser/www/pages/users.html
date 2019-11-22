@@ -46,8 +46,25 @@
                             <i class="icon material-icons" style="font-size: 36px;">loop</i>
                         </button>
                     </div>
-                    <div class="col-50 padding">
+                    <div class="col-40 padding">
                         {{users.length}} Registros
+                    </div>
+                    <div class="col-60">
+                        <div class="list no-hairlines-md" style="margin: 0px;">
+                            <ul>
+                                <li class="item-content item-input item-input-outline">
+                                    <div class="item-inner">
+                                        <div class="item-input-wrap input-dropdown-wrap">
+                                            <select placeholder="Estado" ng-model="pendding"
+                                                ng-change="changePendding(pendding)">
+                                                <option value="true">Pendientes</option>
+                                                <option value="false">Finalizados</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,13 +72,13 @@
         <div class="block">
             <div class="list">
                 <ul>
-                    <li class="swipeout" ng-repeat="user in users">
+                    <li class="swipeout" ng-repeat="user in users | filter: userPendding">
                         <a ui-sref="prtm-on-profile({idUser: user.id})" class="item-link item-content swipeout-content">
                             <div class="item-inner item-cell">
                                 <div class="item-row">
                                     <div class="item-cell"><b>{{user.data.nombre}}</b>
                                     </div>
-                                    <div class="item-cell">CC. {{user.data.identificacion}}</div>
+                                    <div class="item-cell">{{user.data.prestamos}} Pendientes</div>
                                 </div>
                                 <div class="item-row">
                                     <div class="item-cell"><b>Dirección:</b> {{user.data.direccion}}</div>

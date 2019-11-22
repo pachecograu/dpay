@@ -272,6 +272,9 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
             if (user.data.id_account && user.data.id_account.length > 0) {
               for (var i = 0; i < user.data.id_account.length; i++) {
                 if (user.data.id_account[i] == $rootScope.accountSelected) {
+                  if (fn) {
+                    fn(user);
+                  }
                   $scope.safeApply(function () {
                     $scope.users.push(user);
                   });
@@ -283,9 +286,6 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
             return new Date(b.data.creado) - new Date(a.data.creado);
           });
           MyApp.fw7.dialog.close();
-          if (fn) {
-            fn();
-          }
         });
     } catch (error) {
       alert(error);
@@ -764,11 +764,11 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
                 } else if (prestamo.dateTrans > prestamo.semanas && !prestamo.fijo) {
                   prestamo.semPas = prestamo.dateTrans;
                 }
-                console.log(prestamo);
+                // console.log(prestamo);
                 
                 $scope.prestamos.total += prestamo.valor;
                 $scope.prestamos.totalCartera += prestamo.valor + (prestamo.valor * ((prestamo.semPas * 5) / 100));
-                console.log($scope.prestamos.totalCartera)
+                // console.log($scope.prestamos.totalCartera)
                 $scope.prestamos.data.push(prestamo);
               });
             });

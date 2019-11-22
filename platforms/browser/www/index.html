@@ -689,14 +689,24 @@
                     </div>
                   </div>
                 </li>
-                <li>
-                  <span>Tiempo fijo</span>
-                  <label class="toggle toggle-init color-black">
-                    <input type="checkbox" ng-model="newPrestamos.fijo">
-                    <span class="toggle-icon"></span>
-                  </label>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title item-label">
+                      <div class="row">
+                        <div class="col-70">
+                          Tiempo fijo
+                        </div>
+                        <div class="col-30 text-align-right padding">
+                          <label class="toggle toggle-init color-orange">
+                            <input type="checkbox" ng-model="newPrestamos.fijo">
+                            <span class="toggle-icon"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </li>
-                <li class="item-content item-input item-input-outline" ng-hide="newPrestamos.fijo">
+                <li class="item-content item-input item-input-outline">
                   <div class="item-inner">
                     <div class="item-title item-label">Selecciona la fecha</div>
                     <div class="item-input-wrap">
