@@ -399,7 +399,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
       prestamo.id_usuario = $rootScope.paramUserId;
       // prestamo.fecha = new Date();
       prestamo.activo = true;
-      prestamo.data.finish = false;
+      prestamo.finish = false;
       MyApp.fw7.dialog.preloader('Guardando...');
       $scope.db.collection("prestamos").add(prestamo)
         .then(function (docRef) {
