@@ -308,7 +308,7 @@ MyApp.angular.controller('masterCtrl', ['$scope', '$rootScope', '$state', functi
   $scope.saveUser = function (user) {
     try {
       console.log(user);
-      user.id_account = $rootScope.accountSelected;
+      user.id_account = [$rootScope.accountSelected];
       user.creado = new Date();
       user.activo = true;
       MyApp.fw7.dialog.preloader('Guardando...');
